@@ -39,10 +39,36 @@
 
 ![](./image/a01.jpg)
 
+```
+{
+	"deviceOrientation": "portrait",
+	"networkTimeout": {
+		"request": 5000,
+		"connectSocket": 5000,
+		"uploadFile": 5000,
+		"downloadFile": 5000
+	},
+	"openDataContext": "openDataContext"
+}
+```
+
 4、再使用 wing 打开开放数据域项目，打开 egretProperties.json 配置模块中值保留 `egret`、`game` 、'promise'模块，删除 resource 目录下所有内容，这是为了减少游戏的体积。
 
 ![](./image/a02.jpg)
 
+```
+  "modules": [
+    {
+      "name": "egret"
+    },
+    {
+      "name": "game"
+    },
+    {
+      "name": "promise"
+    }
+  ]
+```
 5、在开放数据域 script 目录里打开 config.wxgame.ts 文件。 输出路径 (outputDir) 改为 `../egretToWxDemo_wxgame/openDataContext`，然后把 demo 中的 wxgame.ts 插件替换到 script 的 wxgame 目录内。
 
 ![](./image/a03.jpg)
