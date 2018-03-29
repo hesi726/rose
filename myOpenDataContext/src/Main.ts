@@ -108,10 +108,10 @@ declare namespace wx {
 
     /**
      * 拉取当前用户所有同玩好友的托管数据。该接口只可在开放数据域下使用
-     * @param 
-     * @param 
-     * @param 
-     * @param 
+     * @param keyList 要拉取的 key 列表
+     * @param success 接口调用成功的回调函数
+     * @param fail 	接口调用失败的回调函数
+     * @param complete 接口调用结束的回调函数（调用成功、失败都会执行）
      */
     const getFriendCloudStorage: (Object: {
         keyList?: string[],
@@ -125,11 +125,11 @@ declare namespace wx {
 
     /**
      * 在小游戏是通过群分享卡片打开的情况下，可以通过调用该接口获取群同玩成员的游戏数据。该接口只可在开放数据域下使用。
-     * @param 
-     * @param 
-     * @param 
-     * @param 
-     * @param 
+     * @param shareTicket 群分享对应的 shareTicket
+     * @param keyList 要拉取的 key 列表
+     * @param success 接口调用成功的回调函数
+     * @param fail 接口调用失败的回调函数
+     * @param complete 接口调用结束的回调函数（调用成功、失败都会执行）
      */
     const getGroupCloudStorage: (Object: {
         shareTicket: string,
