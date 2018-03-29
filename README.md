@@ -37,7 +37,6 @@
   //主要示例代码结束  
 ```
 
-![](./image/a01.jpg)
 
 ```
 {
@@ -54,7 +53,6 @@
 
 4、再使用 wing 打开开放数据域项目，打开 egretProperties.json 配置模块中值保留 `egret`、`game` 、'promise'模块，删除 resource 目录下所有内容，这是为了减少游戏的体积。
 
-![](./image/a02.jpg)
 
 ```
   "modules": [
