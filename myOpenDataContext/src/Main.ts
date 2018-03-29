@@ -1,6 +1,20 @@
 class Main extends egret.DisplayObjectContainer {
     constructor() {
         super();
+        //获取小游戏开放数据接口 --- 开始
+        wx.getFriendCloudStorage({
+            // keyList: [''],
+            success: res => {
+                console.log(res);
+            },
+            fail: err => {
+
+            },
+            complete: () => {
+
+            }
+        });
+        //获取小游戏开放数据接口 --- 结束        
         let imageLoader = new egret.ImageLoader();
         imageLoader.addEventListener(egret.Event.COMPLETE, (event: egret.Event) => {
             let imageLoader = <egret.ImageLoader>event.currentTarget;
@@ -84,5 +98,69 @@ class Main extends egret.DisplayObjectContainer {
                 item.addChild(numtxt);
 
             }, this);
+    }
+}
+
+// 微信关系数据的获取
+// 上传方法类似、开发者自行填写
+
+declare namespace wx {
+
+    /**
+     * 拉取当前用户所有同玩好友的托管数据。该接口只可在开放数据域下使用
+     * @param 
+     * @param 
+     * @param 
+     * @param 
+     */
+    const getFriendCloudStorage: (Object: {
+        keyList?: string[],
+        success?: (res: {
+            data: UserGameData[]
+        }) => void,
+        fail?: (err: any) => void,
+        complete?: () => void,
+    }) => void;
+
+
+    /**
+     * 在小游戏是通过群分享卡片打开的情况下，可以通过调用该接口获取群同玩成员的游戏数据。该接口只可在开放数据域下使用。
+     * @param 
+     * @param 
+     * @param 
+     * @param 
+     * @param 
+     */
+    const getGroupCloudStorage: (Object: {
+        shareTicket: string,
+        keyList: string[],
+        success?: (res: {
+            data: UserGameData[]
+        }) => void,
+        fail?: (err?: any) => void,
+        complete?: () => void,
+    }) => void;
+
+    /**
+     * 用户数据
+     */
+    type UserGameData = {
+
+        /** 用户的微信头像 url */
+        avatarUrl: string,
+
+        /** 用户的微信昵称 */
+        nickName: string,
+
+        /** 用户的 openId */
+        openId: string,
+
+        /**用户自定义数据 */
+        KVList: KVData[]
+    }
+
+    type KVData = {
+        key: string,
+        value: string
     }
 }
