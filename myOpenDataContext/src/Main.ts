@@ -1,33 +1,53 @@
 class Main extends egret.DisplayObjectContainer {
+
     constructor() {
         super();
-        //获取小游戏开放数据接口 --- 开始
-        wx.getFriendCloudStorage({
-            // keyList: [''],
-            success: res => {
-                console.log(res);
-            },
-            fail: err => {
 
-            },
-            complete: () => {
+        wx.onMessage(data => {
+            console.log(data);
+            if (data.isDisplay) {
+                //获取小游戏开放数据接口 --- 开始
+                wx.getFriendCloudStorage({
+                    // keyList: [''],
+                    success: res => {
+                        console.log(res);
+                        this.runGame();
+                    },
+                    fail: err => {
+                        console.log(err);
+                    },
+                    complete: () => {
 
+                    }
+                });
+                //监听消息 isDisplay
+            } else {
+                this.cancelGame();
             }
         });
+
         //获取小游戏开放数据接口 --- 结束        
+
         let imageLoader = new egret.ImageLoader();
         imageLoader.addEventListener(egret.Event.COMPLETE, (event: egret.Event) => {
             let imageLoader = <egret.ImageLoader>event.currentTarget;
             this.bgtexture = new egret.Texture();
             this.bgtexture._setBitmapData(imageLoader.data);
-            this.runGame();
         }, this);
         imageLoader.load("resource/assets/panel_shop_01.png");
+
+        let imageLoader1 = new egret.ImageLoader();
+        imageLoader1.addEventListener(egret.Event.COMPLETE, (event: egret.Event) => {
+            let imageLoader = <egret.ImageLoader>event.currentTarget;
+            this.panel_01 = new egret.Texture();
+            this.panel_01._setBitmapData(imageLoader.data);
+        }, this);
+        imageLoader1.load("resource/assets/panel_bg.png");
     }
 
+    private readonly scrollView = new egret.ScrollView();
     private bgtexture: egret.Texture;
-
-
+    private panel_01: egret.Texture;
 
     /**
      * 便于演示数据，这里使用家数据
@@ -51,30 +71,18 @@ class Main extends egret.DisplayObjectContainer {
     ]
 
     private runGame() {
-        let imageLoader = new egret.ImageLoader();
-        imageLoader.addEventListener(egret.Event.COMPLETE, this.loadCompleteHandler, this);
-        imageLoader.load("resource/assets/panel_bg.png");
-    }
-
-    private loadCompleteHandler(event: egret.Event): void {
-
-        let imageLoader = <egret.ImageLoader>event.currentTarget;
-        let texture = new egret.Texture();
-        texture._setBitmapData(imageLoader.data);
-        let bitmap = new egret.Bitmap(texture);
+        let bitmap = new egret.Bitmap(this.panel_01);
         bitmap.x = (640 - 480) >> 1;
         bitmap.y = (1136 - 800) >> 1;
         this.addChild(bitmap);
 
         const listContainer = new egret.DisplayObjectContainer();
-
-        const scrollView = new egret.ScrollView();
-        scrollView.setContent(listContainer);
-        scrollView.x = bitmap.x;
-        scrollView.y = bitmap.y;
-        scrollView.width = bitmap.width;
-        scrollView.height = bitmap.height;
-        this.addChild(scrollView);
+        this.scrollView.setContent(listContainer);
+        this.scrollView.x = bitmap.x;
+        this.scrollView.y = bitmap.y;
+        this.scrollView.width = bitmap.width;
+        this.scrollView.height = bitmap.height;
+        this.addChild(this.scrollView);
 
         this.gameData.forEach(
             (value, index) => {
@@ -99,6 +107,14 @@ class Main extends egret.DisplayObjectContainer {
 
             }, this);
     }
+
+    private cancelGame(): void {
+        for(let i = 0, l = this.numChildren; i < l; i++){
+            this.removeChildAt(0);
+        }
+        this.scrollView.removeContent();
+        console.log('停止开放数据域');
+    }
 }
 
 // 微信关系数据的获取
@@ -106,6 +122,10 @@ class Main extends egret.DisplayObjectContainer {
 
 declare namespace wx {
 
+    /**
+     * 监听消息
+     */
+    const onMessage: (callback: (data: { [key: string]: any }) => void) => void;
     /**
      * 拉取当前用户所有同玩好友的托管数据。该接口只可在开放数据域下使用
      * @param keyList 要拉取的 key 列表

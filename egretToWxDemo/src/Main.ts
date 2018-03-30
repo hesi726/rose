@@ -129,6 +129,7 @@ class Main extends eui.UILayer {
      * Click the button
      */
     private onButtonClick(e: egret.TouchEvent) {
+        let openDataContext = wx.getOpenDataContext();
 
         if (this.isdisplay) {
             this.bitmap.parent && this.bitmap.parent.removeChild(this.bitmap);
@@ -152,5 +153,13 @@ class Main extends eui.UILayer {
             //主要示例代码结束            
             this.isdisplay = true;
         }
+        //发送消息
+        openDataContext.postMessage({
+            isDisplay: this.isdisplay,
+            text: 'hello',
+            year: (new Date()).getFullYear()
+        });
     }
 }
+
+declare const wx: any;
