@@ -109,6 +109,18 @@ class Main extends eui.UILayer {
         button.horizontalCenter = 0;
         this.addChild(button);
         button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
+
+        let sharedBtn = new eui.Button();
+        sharedBtn.y = 35;        
+        sharedBtn.label = '分享按钮';
+        this.addChild(sharedBtn);
+        sharedBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+            window.platform.shareAppMessage().then((res) => {
+                console.log('分享成功回调',res);
+            },(err)=>{
+                console.log('分享失败回调',err);
+            });
+        }, this);
     }
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。

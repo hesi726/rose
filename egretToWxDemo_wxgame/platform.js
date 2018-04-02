@@ -33,6 +33,21 @@ class WxgamePlatform {
             })
         })
     }
+
+    //主动调取分享示例
+    shareAppMessage() {
+        return new Promise((resolve, reject)=>{
+            wx.shareAppMessage({
+                title: "这是测试分享",
+                success: (res) => {
+                    resolve(res);
+                },
+                fail: (err) => {
+                    reject(err);
+                }
+            })
+        })
+    }
 }
 
 
