@@ -92,6 +92,11 @@ class Main extends eui.UILayer {
     }
 
     /**
+     * 排行榜关闭按钮
+     */
+    private btnClose: eui.Button;
+
+    /**
      * 创建场景界面
      * Create scene interface
      */
@@ -103,25 +108,30 @@ class Main extends eui.UILayer {
         sky.width = stageW;
         sky.height = stageH;
 
-        let button = new eui.Button();
-        button.label = "Click!";
-        button.y = 35;
-        button.horizontalCenter = 0;
-        this.addChild(button);
-        button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
+        this.btnClose = new eui.Button();
+        this.btnClose.label = "btnClose!";
+        this.btnClose.y = 35;
+        this.btnClose.horizontalCenter = 0;
+        this.addChild(this.btnClose);
+        this.btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
 
         let sharedBtn = new eui.Button();
-        sharedBtn.y = 35;        
-        sharedBtn.label = '分享按钮';
+        sharedBtn.y = 35;
+        sharedBtn.label = 'btnShared';
         this.addChild(sharedBtn);
         sharedBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
             window.platform.shareAppMessage().then((res) => {
-                console.log('分享成功回调',res);
-            },(err)=>{
-                console.log('分享失败回调',err);
+                console.log('分享成功回调', res);
+            }, (err) => {
+                console.log('分享失败回调', err);
             });
         }, this);
+
+        this.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => {
+            console.log('输出主域点击事件');
+        }, this)
     }
+
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
      * Create a Bitmap object according to name keyword.As for the property of name please refer to the configuration file of resources/resource.json.
@@ -136,6 +146,13 @@ class Main extends eui.UILayer {
     private bitmap: egret.Bitmap;
 
     private isdisplay = false;
+
+    /**
+     * 排行榜遮罩，为了避免点击开放数据域影响到主域，在主域中建立一个遮罩层级来屏蔽点击事件.</br>
+     * 根据自己的需求来设置遮罩的 alpha 值 0~1.</br>
+     * 
+     */
+    private rankingListMask: egret.Shape;
     /**
      * 点击按钮
      * Click the button
@@ -145,8 +162,20 @@ class Main extends eui.UILayer {
 
         if (this.isdisplay) {
             this.bitmap.parent && this.bitmap.parent.removeChild(this.bitmap);
+            this.rankingListMask.parent && this.rankingListMask.parent.removeChild(this.rankingListMask);
             this.isdisplay = false;
         } else {
+            //处理遮罩，避免开放数据域事件影响主域。
+            this.rankingListMask = new egret.Shape();
+            this.rankingListMask.graphics.beginFill(0x000000, 1);
+            this.rankingListMask.graphics.drawRect(0, 0, this.stage.width, this.stage.height);
+            this.rankingListMask.graphics.endFill();
+            this.rankingListMask.alpha = 0.5;
+            this.rankingListMask.touchEnabled = true;
+            this.addChild(this.rankingListMask);
+
+            //简单实现，打开这关闭使用一个按钮。
+            this.addChild(this.btnClose);
             //主要示例代码开始
             const bitmapdata = new egret.BitmapData(window["sharedCanvas"]);
             bitmapdata.$deleteSource = false;

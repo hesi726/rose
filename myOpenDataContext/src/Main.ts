@@ -43,6 +43,11 @@ class Main extends egret.DisplayObjectContainer {
             this.panel_01._setBitmapData(imageLoader.data);
         }, this);
         imageLoader1.load("resource/assets/panel_bg.png");
+
+        //测试点击
+        this.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => {
+            console.log('子域输出点击');
+        }, this);
     }
 
     private readonly scrollView = new egret.ScrollView();
@@ -104,12 +109,11 @@ class Main extends egret.DisplayObjectContainer {
                 numtxt.y = 50;
                 numtxt.text = '得分:' + value.data[0].score;
                 item.addChild(numtxt);
-
             }, this);
     }
 
     private cancelGame(): void {
-        for(let i = 0, l = this.numChildren; i < l; i++){
+        for (let i = 0, l = this.numChildren; i < l; i++) {
             this.removeChildAt(0);
         }
         this.scrollView.removeContent();
