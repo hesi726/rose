@@ -45,6 +45,15 @@ class Main extends eui.UILayer {
         //     egret.ticker.resume();
         // }
 
+        /**
+         * 微信加载自定义字体
+         * 注意 目前只有真机调试生效，可能是模拟器的问题。
+         */
+
+        this.customTypeface = wx.loadFont('resource/assets/ttf/mao.ttf');
+        console.log('自定义字体', this.customTypeface);
+
+
         //inject the custom material parser
         //注入自定义的素材解析器
         let assetAdapter = new AssetAdapter();
@@ -56,6 +65,8 @@ class Main extends eui.UILayer {
             console.log(e);
         })
     }
+
+    private customTypeface;
 
     private async runGame() {
         await this.loadResource()
@@ -108,6 +119,12 @@ class Main extends eui.UILayer {
         sky.width = stageW;
         sky.height = stageH;
 
+        let txt = new egret.TextField();
+        txt.fontFamily = this.customTypeface;
+        txt.text = "微信小游戏测试毛泽东字体";
+        txt.x = 100;
+        this.addChild(txt);
+
         this.btnClose = new eui.Button();
         this.btnClose.label = "btnClose!";
         this.btnClose.y = 35;
@@ -125,6 +142,28 @@ class Main extends eui.UILayer {
             }, (err) => {
                 console.log('分享失败回调', err);
             });
+        }, this);
+
+        /**
+         * 当前按钮会退出小游戏线程
+         */
+        let close = new eui.Button();
+        close.y = 135;
+        close.label = '退出';
+        this.addChild(close);
+
+        close.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+            wx.exitMiniProgram({
+                success: (res) => {
+                    console.log('退出成功', res);
+                },
+                fail: (err) => {
+                    console.log('退出失败', err);
+                },
+                complete: (res) => {
+
+                }
+            })
         }, this);
 
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => {
@@ -203,4 +242,4 @@ class Main extends eui.UILayer {
     }
 }
 
-declare const wx: any;
+// declare const wx: any;
