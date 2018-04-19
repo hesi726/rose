@@ -8,7 +8,7 @@ class Main extends egret.DisplayObjectContainer {
             if (data.isDisplay) {
                 //获取小游戏开放数据接口 --- 开始
                 wx.getFriendCloudStorage({
-                    keyList: [''],
+                    keyList: [],
                     success: res => {
                         console.log(res);
                         this.runGame();
