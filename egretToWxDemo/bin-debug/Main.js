@@ -91,9 +91,10 @@ var Main = (function (_super) {
         // }
         /**
          * 微信加载自定义字体
+         * 注意 目前只有真机调试生效，可能是模拟器的问题。
          */
-        var textType = wx.loadFont('resource/assets/ttf/mao.ttf');
-        console.log('自定义字体', textType);
+        this.customTypeface = wx.loadFont('resource/assets/ttf/mao.ttf');
+        console.log('自定义字体', this.customTypeface);
         //inject the custom material parser
         //注入自定义的素材解析器
         var assetAdapter = new AssetAdapter();
@@ -169,32 +170,66 @@ var Main = (function (_super) {
      * Create scene interface
      */
     Main.prototype.createGameScene = function () {
-        var sky = this.createBitmapByName("bg_jpg");
-        this.addChild(sky);
-        var stageW = this.stage.stageWidth;
-        var stageH = this.stage.stageHeight;
-        sky.width = stageW;
-        sky.height = stageH;
-        this.btnClose = new eui.Button();
-        this.btnClose.label = "btnClose!";
-        this.btnClose.y = 35;
-        this.btnClose.horizontalCenter = 0;
-        this.addChild(this.btnClose);
-        this.btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
-        var sharedBtn = new eui.Button();
-        sharedBtn.y = 35;
-        sharedBtn.label = 'btnShared';
-        this.addChild(sharedBtn);
-        sharedBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            window.platform.shareAppMessage().then(function (res) {
-                console.log('分享成功回调', res);
-            }, function (err) {
-                console.log('分享失败回调', err);
+        return __awaiter(this, void 0, void 0, function () {
+            var sky, stageW, stageH, txt, sharedBtn, close, userInfo;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        sky = this.createBitmapByName("bg_jpg");
+                        this.addChild(sky);
+                        stageW = this.stage.stageWidth;
+                        stageH = this.stage.stageHeight;
+                        sky.width = stageW;
+                        sky.height = stageH;
+                        txt = new egret.TextField();
+                        txt.fontFamily = this.customTypeface;
+                        txt.text = "微信小游戏测试毛泽东字体";
+                        txt.x = 100;
+                        this.addChild(txt);
+                        this.btnClose = new eui.Button();
+                        this.btnClose.label = "btnClose!";
+                        this.btnClose.y = 35;
+                        this.btnClose.horizontalCenter = 0;
+                        this.addChild(this.btnClose);
+                        this.btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
+                        sharedBtn = new eui.Button();
+                        sharedBtn.y = 35;
+                        sharedBtn.label = 'btnShared';
+                        this.addChild(sharedBtn);
+                        sharedBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                            window.platform.shareAppMessage().then(function (res) {
+                                console.log('分享成功回调', res);
+                            }, function (err) {
+                                console.log('分享失败回调', err);
+                            });
+                        }, this);
+                        close = new eui.Button();
+                        close.y = 135;
+                        close.label = '退出';
+                        this.addChild(close);
+                        close.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                            wx.exitMiniProgram({
+                                success: function (res) {
+                                    console.log('退出成功', res);
+                                },
+                                fail: function (err) {
+                                    console.log('退出失败', err);
+                                },
+                                complete: function (res) {
+                                }
+                            });
+                        }, this);
+                        this.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
+                            console.log('输出主域点击事件');
+                        }, this);
+                        return [4 /*yield*/, wxmingame.createUserInfoBtn()];
+                    case 1:
+                        userInfo = _a.sent();
+                        console.log('获取信息', userInfo);
+                        return [2 /*return*/];
+                }
             });
-        }, this);
-        this.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
-            console.log('输出主域点击事件');
-        }, this);
+        });
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
@@ -255,3 +290,4 @@ var Main = (function (_super) {
     return Main;
 }(eui.UILayer));
 __reflect(Main.prototype, "Main");
+// declare const wx: any; 

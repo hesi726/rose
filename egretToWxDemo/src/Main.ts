@@ -111,7 +111,7 @@ class Main extends eui.UILayer {
      * 创建场景界面
      * Create scene interface
      */
-    protected createGameScene(): void {
+    protected async createGameScene() {
         let sky = this.createBitmapByName("bg_jpg");
         this.addChild(sky);
         let stageW = this.stage.stageWidth;
@@ -168,7 +168,11 @@ class Main extends eui.UILayer {
 
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => {
             console.log('输出主域点击事件');
-        }, this)
+        }, this);
+
+        //获取授权信息
+        let userInfo = await wxmingame.createUserInfoBtn();
+        console.log('获取信息',userInfo);
     }
 
     /**
