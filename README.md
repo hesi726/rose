@@ -2,7 +2,7 @@
 
 ## 微信小游戏 dts 文件生成工具 ./generate_dts
 
-## 微信小游戏 dts 文件、WeChat Open data domain demo、微信开放数据域演示
+## 微信小游戏dts 、微信小游戏 .d.ts 文件、WeChat Open data domain demo、微信开放数据域演示 
 
 ### 使用原生的canvas 绘制子域
  * 开放数据域使用原生的 canvas 绘制方式，子域不再需要创建新的项目。
