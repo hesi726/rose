@@ -1,5 +1,7 @@
 ## 微信小游戏 dts [文件路径](./share/wx_mini_game.d.ts)
 
+## 微信小游戏 dts 文件生成工具 ./generate_dts
+
 ## 微信小游戏 dts 文件、WeChat Open data domain demo、微信开放数据域演示
 
 ### 使用原生的canvas 绘制子域
