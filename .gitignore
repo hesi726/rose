@@ -1,7 +1,2 @@
 .vscode
-demo/bin-debug
-demo/bin-release
-demo/manifest.json
-node_modules
-npm-debug.log*
 .DS_Store
