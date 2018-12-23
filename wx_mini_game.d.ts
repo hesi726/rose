@@ -1,148 +1,17 @@
-/**
- * 取消一个先前通过调用 requestAnimationFrame 方法添加到计划中的动画帧请求
- */
-declare function cancelAnimationFrame(requestID: number): void;
-
-/**
- * 在下次进行重绘时执行。
- */
-declare function requestAnimationFrame(callback: ()=>void): number;
-
-/**
- * 可取消由 setTimeout() 方法设置的定时器。
- */
-declare function clearTimeout(timeoutID: number): void;
-
-/**
- * 可取消由 setInterval() 方法设置的定时器。
- */
-declare function clearInterval(intervalID: number): void;
-
-/**
- * 设定一个定时器，在定时到期以后执行注册的回调函数
- */
-declare function setTimeout(callback: ()=>void, delay: number, rest: any): number;
-
-/**
- * 设定一个定时器，按照指定的周期（以毫秒计）来执行注册的回调函数
- */
-declare function setInterval(callback: ()=>void, delay: number, rest: any): number;
-
-declare const wx: {
+declare const awx: {
 
     createUserInfoButton(any):any;
-    /**
-     * 创建一个画布对象。首次调用创建的是显示在屏幕上的画布，之后调用创建的都是离屏画布。
-     */
-    createCanvas(): Canvas;
     /**
      * 只有开放数据域能调用，获取主域和开放数据域共享的 sharedCanvas
      */
     getSharedCanvas(): Canvas;
-    /**
-     * 创建一个图片对象
-     */
-    createImage(): Image;
-    /**
-     * 获取一行文本的行高
-     */
-    getTextLineHeight(object: {fontStyle:string,fontWeight:string,fontSize:number,fontFamily:string,text:string,success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): number;
-    /**
-     * 加载自定义字体文件
-     */
-    loadFont(path: string): string;
+   
     /**
      * 可以修改渲染帧率。默认渲染帧率为 60 帧每秒。修改后，requestAnimationFrame 的回调频率会发生改变。
      */
     setPreferredFramesPerSecond(fps: number): void;
-    /**
-     * 退出当前小游戏
-     */
-    exitMiniProgram(object: {success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): void;
-    /**
-     * 返回小程序启动参数
-     */
-    getLaunchOptionsSync(): LaunchOption;
-    /**
-     * 监听小游戏隐藏到后台事件。锁屏、按 HOME 键退到桌面、显示在聊天顶部等操作会触发此事件。
-     */
-    onHide(callback: ()=>void): void;
-    /**
-     * 取消监听小游戏隐藏到后台事件。锁屏、按 HOME 键退到桌面、显示在聊天顶部等操作会触发此事件。
-     */
-    offHide(callback: ()=>void): void;
-    /**
-     * 监听小游戏回到前台的事件
-     */
-    onShow(callback: ()=>void): void;
-    /**
-     * 取消监听小游戏回到前台的事件
-     */
-    offShow(callback: ()=>void): void;
-    /**
-     * 获取系统信息
-     */
-    getSystemInfo(object: {success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): void;
-    /**
-     * wx.getSystemInfo 的同步版本
-     */
-    getSystemInfoSync(): SystemInfo;
-    /**
-     * 监听音频中断结束，在收到 onAudioInterruptionBegin 事件之后，小程序内所有音频会暂停，收到此事件之后才可再次播放成功
-     */
-    onAudioInterruptionEnd(callback: ()=>void): void;
-    /**
-     * 取消监听音频中断结束，在收到 onAudioInterruptionBegin 事件之后，小程序内所有音频会暂停，收到此事件之后才可再次播放成功
-     */
-    offAudioInterruptionEnd(callback: ()=>void): void;
-    /**
-     * 监听音频因为受到系统占用而被中断开始，以下场景会触发此事件：闹钟、电话、FaceTime 通话、微信语音聊天、微信视频聊天。此事件触发后，小程序内所有音频会暂停。
-     */
-    onAudioInterruptionBegin(callback: ()=>void): void;
-    /**
-     * 取消监听音频因为受到系统占用而被中断开始，以下场景会触发此事件：闹钟、电话、FaceTime 通话、微信语音聊天、微信视频聊天。此事件触发后，小程序内所有音频会暂停。
-     */
-    offAudioInterruptionBegin(callback: ()=>void): void;
-    /**
-     * 监听全局错误事件
-     */
-    onError(callback: ()=>void): void;
-    /**
-     * 取消监听全局错误事件
-     */
-    offError(callback: ()=>void): void;
-    /**
-     * 监听开始触摸事件
-     */
-    onTouchStart(callback: ()=>void): void;
-    /**
-     * 取消监听开始触摸事件
-     */
-    offTouchStart(callback: ()=>void): void;
-    /**
-     * 监听触点移动事件
-     */
-    onTouchMove(callback: ()=>void): void;
-    /**
-     * 取消监听触点移动事件
-     */
-    offTouchMove(callback: ()=>void): void;
-    /**
-     * 监听触摸结束事件
-     */
-    onTouchEnd(callback: ()=>void): void;
-    /**
-     * 取消监听触摸结束事件
-     */
-    offTouchEnd(callback: ()=>void): void;
-    /**
-     * 监听触点失效事件
-     */
-    onTouchCancel(callback: ()=>void): void;
-    /**
-     * 取消监听触点失效事件
-     */
-    offTouchCancel(callback: ()=>void): void;
+    
+  
     /**
      * 监听加速度数据，频率：5次/秒，接口调用后会自动开始监听，可使用 wx.stopAccelerometer 停止监听。
      */
@@ -183,46 +52,7 @@ declare const wx: {
      * 获取当前的地理位置、速度。当用户离开小程序后，此接口无法调用；当用户点击“显示在聊天顶部”时，此接口可继续调用。
      */
     getLocation(object: {type:string,success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): void;
-    /**
-     * 下载文件资源到本地，客户端直接发起一个 HTTP GET 请求，返回文件的本地文件路径。
-     */
-    downloadFile(object: {url:string,header:Object,filePath:string,fail:(res:any)=>void,complete:(res:any)=>void}): DownloadTask;
-    /**
-     * 发起网络请求。
-     */
-    request(object: {url:string,data:string|Object,header:Object,method:string,dataType:string,success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): RequestTask;
-    /**
-     * 创建一个 WebSocket 连接。最多同时存在 2 个 WebSocket 连接。
-     */
-    connectSocket(object: {url:string,header:Object,method:string,protocols:any[],success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): SocketTask;
-    /**
-     * 关闭 WeSocket 连接
-     */
-    closeSocket(object: {code:number,reason:string,success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): void;
-    /**
-     * 监听WebSocket 连接打开事件
-     */
-    onSocketOpen(callback: ()=>void): void;
-    /**
-     * 监听WebSocket 连接关闭事件
-     */
-    onSocketClose(callback: ()=>void): void;
-    /**
-     * 监听WebSocket 接受到服务器的消息事件
-     */
-    onSocketMessage(callback: ()=>void): void;
-    /**
-     * 监听WebSocket 错误事件
-     */
-    onSocketError(callback: ()=>void): void;
-    /**
-     * 通过 WebSocket 连接发送数据，需要先 wx.connectSocket，并在 wx.onSocketOpen 回调之后才能发送。
-     */
-    sendSocketMessage(object: {data:any[],success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): void;
-    /**
-     * 将本地资源上传到开发者服务器，客户端发起一个 HTTPS POST 请求，其中 content-type 为 multipart/form-data 。
-     */
-    uploadFile(object: {url:string,filePath:string,name:string,header:Object,formData:Object,success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): UploadTask;
+    
     /**
      * 通过 wx.login 接口获得的用户登录态拥有一定的时效性。用户越久未使用小程序，用户登录态越有可能失效。反之如果用户一直在使用小程序，则用户登录态一直保持有效。具体时效逻辑由微信维护，对开发者透明。开发者只需要调用 wx.checkSession 接口检测当前用户登录态是否有效。登录态过期后开发者可以再调用 wx.login 获取新的用户登录态。
      */
@@ -324,76 +154,7 @@ declare const wx: {
      * wx.setStorage 的同步版本
      */
     setStorageSync(key: string, data: Object|string): void;
-    /**
-     * 隐藏消息提示框
-     */
-    hideToast(object: {success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): void;
-    hideLoading(object: {success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): void;
-    /**
-     * 显示模态对话框
-     */
-    showModal(object: {title:string,content:string,showCancel:boolean,cancelText:string,cancelColor:string,confirmText:string,confirmColor:string,success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): void;
-    /**
-     * 显示消息提示框
-     */
-    showToast(object: {title:Object,icon:Object,image:Object,success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): void;
-    showLoading(object: {title:string,mask:boolean,success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): void;
-    /**
-     * 参数
-     */
-    showActionSheet(object: {itemList:any[],itemColor:string,success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): void;
-    /**
-     * 隐藏键盘
-     */
-    hideKeyboard(object: {success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): void;
-    /**
-     * 监听键盘输入事件
-     */
-    onKeyboardInput(callback: ()=>void): void;
-    /**
-     * 取消监听键盘输入事件
-     */
-    offKeyboardInput(callback: ()=>void): void;
-    /**
-     * 监听用户点击键盘 Confirm 按钮时的事件
-     */
-    onKeyboardConfirm(callback: ()=>void): void;
-    /**
-     * 取消监听用户点击键盘 Confirm 按钮时的事件
-     */
-    offKeyboardConfirm(callback: ()=>void): void;
-    /**
-     * 监听监听键盘收起的事件
-     */
-    onKeyboardComplete(callback: ()=>void): void;
-    /**
-     * 取消监听监听键盘收起的事件
-     */
-    offKeyboardComplete(callback: ()=>void): void;
-    /**
-     * 显示键盘
-     */
-    showKeyboard(object: {defaultValue:string,maxLength:number,multiple:boolean,confirmHold:boolean,confirmType:string,success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): void;
-    /**
-     * 动态设置通过右上角按钮拉起的菜单的样式。
-     */
-    setMenuStyle(object: {style:string,success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): void;
-    /**
-     * 当在配置中设置 showStatusBarStyle 时，屏幕顶部会显示状态栏。此接口可以修改状态栏的样式。
-     */
-    setStatusBarStyle(object: {style:string,success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): void;
-    /**
-     * 监听窗口尺寸变化事件
-     */
-    onWindowResize(callback: ()=>void): void;
-    /**
-     * 取消监听窗口尺寸变化事件
-     */
-    offWindowResize(callback: ()=>void): void;
-    /**
-     * 返回值
-     */
-    getUpdateManager(): UpdateManager;
+    
     /**
      * 创建一个 Worker 线程，目前限制最多只能创建一个 Worker，创建下一个 Worker 前请调用 Worker.terminate
      */
@@ -416,38 +177,13 @@ declare const wx: {
      * 创建视频
      */
     createVideo(object: {x:number,y:number,width:number,height:number,src:number,poster:number,initialTime:number,playbackRate:number,live:number,objectFit:number,controls:number,autoplay:number,loop:number,muted:number}): Video;
-    /**
-     * 获取性能管理器
-     */
-    getPerformance(): Performance;
-    /**
-     * 加快触发 JavaScrpitCore Garbage Collection（垃圾回收），GC 时机是由 JavaScrpitCore 来控制的，并不能保证调用后马上触发 GC。
-     */
-    triggerGC(): void;
+   
     /**
      * 发起米大师支付
      */
     requestMidasPayment(object: {mode:string,env:number,offerId:string,currencyType:string,platform:string,buyQuantity:number,zoneId:string,success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): void;
 }
 
-declare interface Canvas {
-    /**
-     * 获取画布对象的绘图上下文
-     */
-    getContext(contextType: string, contextAttributes: {antialias:boolean,preserveDrawingBuffer:boolean,antialiasSamples:number}): RenderingContext;
-    /**
-     * 将当前 Canvas 保存为一个临时文件，并生成相应的临时文件路径。
-     */
-    toTempFilePath(object: {x:number,y:number,width:number,height:number,destWidth:number,destHeight:number,fileType:string,quality:number,success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): string;
-    /**
-     * 把画布上的绘制内容以一个 data URI 的格式返回
-     */
-    toDataURL(): string;
-    /**
-     * Canvas.toTempFilePath 的同步版本
-     */
-    toTempFilePathSync(object: {x:number,y:number,width:number,height:number,destWidth:number,destHeight:number,fileType:string,quality:number}): void;
-}
 
 declare interface FileSystemManager {
     /**
@@ -567,71 +303,11 @@ declare interface Stats {
     isFile(): boolean;
 }
 
-declare interface DownloadTask {
-    abort(): void;
-    onProgressUpdate(callback: ()=>void): void;
-}
-
-declare interface RequestTask {
-    abort(): void;
-}
-
-declare interface SocketTask {
-    /**
-     * 关闭 WebSocket 连接
-     */
-    close(object: {code:number,reason:string,success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): void;
-    /**
-     * 监听WebSocket 连接打开事件
-     */
-    onOpen(callback: ()=>void): void;
-    /**
-     * 监听WebSocket 连接关闭事件
-     */
-    onClose(callback: ()=>void): void;
-    /**
-     * 监听WebSocket 错误事件
-     */
-    onError(callback: ()=>void): void;
-    /**
-     * 监听WebSocket 接受到服务器的消息事件
-     */
-    onMessage(callback: ()=>void): void;
-    /**
-     * 通过 WebSocket 连接发送数据
-     */
-    send(object: {data:any[],success:(res:any)=>void,fail:(res:any)=>void,complete:(res:any)=>void}): void;
-}
-
-declare interface UploadTask {
-    abort(): void;
-    onProgressUpdate(callback: ()=>void): void;
-}
-
 declare interface OpenDataContext {
     /**
      * 向开放数据域发送消息
      */
     postMessage(message: {}): void;
-}
-
-declare interface UpdateManager {
-    /**
-     * 应用更新包并重启
-     */
-    applyUpdate(): void;
-    /**
-     * 监听检查更新结果回调
-     */
-    onCheckForUpdate(callback: ()=>void): void;
-    /**
-     * 监听更新包下载成功回调
-     */
-    onUpdateReady(callback: ()=>void): void;
-    /**
-     * 监听更新包下载失败回调
-     */
-    onUpdateFailed(callback: ()=>void): void;
 }
 
 declare interface Worker {
@@ -862,79 +538,6 @@ declare interface Video {
     stop(): Promise<Object>;
 }
 
-declare interface Performance {
-    /**
-     * 可以获取当前时间以微秒为单位的时间戳
-     */
-    now(): number;
-}
-
-
-declare interface Image {
-    /**
-     * 图片的 URL
-     */
-    src: string;
-    /**
-    * 图片的真实宽度
-    */
-    width: number;
-    /**
-    * 图片的真实高度
-    */
-    height: number;
-    /**
-     * 图片的加载完成
-     */
-    onload: () => void;
-}
-
-declare class LaunchOption {
-    /** 场景值*/
-    scene: number;
-    /** 启动参数*/
-    query: Object;
-    /** 当前小游戏是否被显示在聊天顶部*/
-    isSticky: boolean;
-    /** shareTicket*/
-    shareTicket: string;
-}
-
-declare class SystemInfo {
-    /** 手机品牌*/
-    brand: string;
-    /** 手机型号*/
-    model: string;
-    /**	设备像素比 */
-    pixelRatio: number;
-    /** 屏幕宽度*/
-    screenWidth: number;
-    /** 屏幕高度*/
-    screenHeight: number;
-    /** 可使用窗口宽度*/
-    windowWidth: number;
-    /** 可使用窗口高度*/
-    windowHeight: number;
-    /** 微信设置的语言*/
-    language: string;
-    /** 微信版本号*/
-    version: string;
-    /** 操作系统版本*/
-    system: string;
-    /** 客户端平台*/
-    platform: string
-    /** 用户字体大小设置。以“我-设置 - 通用 - 字体大小”中的设置为准，单位 px。*/
-    fontSizeSetting: number;
-    /** 客户端基础库版本*/
-    SDKVersion: string;
-    /** 性能等级*/
-    benchmarkLevel: number;
-    /** 电量，范围 1 - 100*/
-    battery: number;
-    /** wifi 信号强度，范围 0 - 4 */
-    wifiSignal: number;
-}
-
 declare class Stats {
     /**
      * 文件的类型和存取的权限，对应 POSIX stat.st_mode
@@ -953,14 +556,3 @@ declare class Stats {
     */
     lastModifiedTime: number;
 }
-
- /**
-  * 通过 Canvas.getContext('2d') 接口可以获取 CanvasRenderingContext2D 对象。CanvasRenderingContext2D 实现了 HTML The 2D rendering context 定义的大部分属性、方法。通过 Canvas.getContext('webgl') 接口可以获取 WebGLRenderingContext 对象。 WebGLRenderingContext 实现了 WebGL 1.0 定义的所有属性、方法、常量。
-  * 2d 接口支持情况
-  * iOS/Android 不支持的 2d 属性和接口
-  * globalCompositeOperation 不支持以下值： source-in source-out destination-atop lighter copy。如果使用，不会报错，但是将得到与预期不符的结果。
-  * isPointInPath
-  * WebGL 接口支持情况
-  * iOS/Android 不支持的 WebGL 接
-   */
-declare interface RenderingContext {}
