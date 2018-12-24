@@ -8,6 +8,7 @@ declare function cancelAnimationFrame(requestID: number): void;
  */
 declare function requestAnimationFrame(callback: () => void): number;
 
+/** 输出日志*/
 interface Console {
     debug(message?: any, ...optionalParams: any[]): void;
     error(message?: any, ...optionalParams: any[]): void;
@@ -18,6 +19,7 @@ interface Console {
     warn(message?: any, ...optionalParams: any[]): void;
 }
 
+/** 输出日志*/
 declare var Console: {
     prototype: Console;
     new(): Console;
@@ -649,15 +651,15 @@ declare namespace wx {
      */
     function request(object: {
         url: string,
-        data?: string | object | ArrayBuffer,
-        header?: Object,
+        data?: string | {} | ArrayBuffer,
+        header?: {},
         method?: 'OPTIONS' | 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'TRACE' | 'CONNECT',
         dataType?: 'json',
         responseType: 'text',
         success?: (res?: {
-            data: string | Object | ArrayBuffer,
+            data: string | {} | ArrayBuffer,
             statusCode: number,
-            header: Object
+            header: {}
         }) => void,
         fail?: (res?: any) => void,
         complete?: (res?: any) => void
@@ -766,7 +768,7 @@ declare namespace wx {
     /**
      * 创建一个 WebSocket 连接。
      */
-    function connectSocket(object: { url: string, header?: Object, protocols: Array<string>, success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): SocketTask;
+    function connectSocket(object: { url: string, header?: {}, protocols: Array<string>, success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): SocketTask;
     /**
      * 关闭 WeSocket 连接
      */
@@ -774,7 +776,7 @@ declare namespace wx {
     /**
      * 监听WebSocket 连接打开事件
      */
-    function onSocketOpen(callback: (res: { header: object }) => void): void;
+    function onSocketOpen(callback: (res: { header: {} }) => void): void;
     /**
      * 监听WebSocket 连接关闭事件
      */
@@ -1685,8 +1687,366 @@ declare namespace wx {
         fail?: (res?: any) => void, complete?: (res?: any) => void
     }): void;
 
-    
+    /**用户点击后打开意见反馈页面的按钮 */
+    interface FeedbackButton {
+        /** 按钮的类型*/
+        type: 'text' | 'image';
+        text: string,
+        image: string,
+        style: {
+            left: number,
+            top: number,
+            width: number,
+            height: number,
+            backgroundColor: string,
+            borderColor: string,
+            borderWidth: number,
+            borderRadius: number,
+            textAlign: 'left' | 'center' | 'right',
+            fontSize: number,
+            lineHeight: number
+        },
 
+        /** 显示意见反馈按钮*/
+        show(): void;
+
+        /** 隐藏意见反馈按钮。*/
+        hide(): void;
+
+        /** 销毁意见反馈按钮*/
+        destroy(): void;
+
+        /** 监听意见反馈按钮的点击事件*/
+        onTap(callback: () => void): void;
+
+        /** 取消监听意见反馈按钮的点击事件*/
+        offTap(callback: () => void): void;
+    }
+    /**
+     * 创建打开意见反馈页面的按钮
+     */
+    function createFeedbackButton(object: {
+        type: 'text' | 'image',
+        text?: string,
+        image?: string,
+        style: {
+            left: number,
+            top: number,
+            width: number,
+            height: number,
+            backgroundColor: string,
+            borderColor: string,
+            borderWidth: number,
+            borderRadius: number,
+            textAlign: 'left' | 'center' | 'right',
+            fontSize: number,
+            lineHeight: number
+        }
+    }): FeedbackButton;
+
+    /** 用户授权设置信息，详情参考权限*/
+    interface AuthSetting {
+        /** 是否授权用户信息，对应接口 wx.getUserInfo*/
+        userInfo: boolean;
+        /** 是否授权地理位置，对应接口 wx.getLocation*/
+        userLocation: boolean;
+        /** 是否授权微信运动步数，对应接口 wx.getWeRunData*/
+        werun: boolean;
+        /** 是否授权保存到相册 wx.saveImageToPhotosAlbum*/
+        writePhotosAlbum: boolean;
+    }
+
+    /** 调起客户端小程序设置界面，返回用户设置的操作结果。设置界面只会出现小程序已经向用户请求过的权限。*/
+    function openSetting(object: {
+        success?: (res: { authSetting: AuthSetting }) => void,
+        fail?: (res?: any) => void, complete?: (res?: any) => void
+    }): void;
+
+    /** 获取用户的当前设置。返回值中只会出现小程序已经向用户请求过的权限。*/
+    function getSetting(object: {
+        success?: (res: { authSetting: AuthSetting }) => void,
+        fail?: (res?: any) => void, complete?: (res?: any) => void
+    }): void;
+
+    /**
+     * 用户点击后打开设置页面的按钮
+     */
+    interface OpenSettingButton {
+        type: 'text' | 'image';
+        text: string,
+        image: string,
+        style: {
+            left: number,
+            top: number,
+            width: number,
+            height: number,
+            backgroundColor: string,
+            borderColor: string,
+            borderWidth: number,
+            borderRadius: number,
+            textAlign: 'left' | 'center' | 'right',
+            fontSize: number,
+            lineHeight: number
+        },
+
+        show(): void;
+
+        hide(): void;
+
+        destroy(): void;
+
+        onTap(callback: () => void): void;
+
+        offTap(callback: () => void): void;
+    }
+
+    /** 创建打开设置页面的按钮*/
+    function createOpenSettingButton(object: {
+        type: 'text' | 'image',
+        text?: string,
+        image?: string,
+        style: {
+            left: number,
+            top: number,
+            width: number,
+            height: number,
+            backgroundColor: string,
+            borderColor: string,
+            borderWidth: number,
+            borderRadius: number,
+            textAlign: 'left' | 'center' | 'right',
+            fontSize: number,
+            lineHeight: number
+        },
+        show(): void;
+
+        hide(): void;
+
+        destroy(): void;
+
+        onTap(callback: () => void): void;
+
+        offTap(callback: () => void): void;
+    }): OpenSettingButton;
+
+    /** 游戏圈按钮。游戏圈按钮被点击后会跳转到小游戏的游戏圈。更多关于游戏圈的信息见 游戏圈使用指南*/
+    interface GameClubButton {
+        type: 'text' | 'image',
+        text?: string,
+        image?: string,
+        style: {
+            left: number,
+            top: number,
+            width: number,
+            height: number,
+            backgroundColor: string,
+            borderColor: string,
+            borderWidth: number,
+            borderRadius: number,
+            textAlign: 'left' | 'center' | 'right',
+            fontSize: number,
+            lineHeight: number
+        },
+        icon: 'green' | 'white' | 'dark' | 'light'
+    }
+
+    /** 创建游戏圈按钮。游戏圈按钮被点击后会跳转到小游戏的游戏圈。更多关于游戏圈的信息见 游戏圈使用指南*/
+    function createGameClubButton(object: {
+        type: 'text' | 'image',
+        text?: string,
+        image?: string,
+        style: {
+            left: number,
+            top: number,
+            width: number,
+            height: number,
+            backgroundColor: string,
+            borderColor: string,
+            borderWidth: number,
+            borderRadius: number,
+            textAlign: 'left' | 'center' | 'right',
+            fontSize: number,
+            lineHeight: number
+        },
+        icon: 'green' | 'white' | 'dark' | 'light'
+    }): GameClubButton;
+
+    /** 进入客服会话。要求在用户发生过至少一次 touch 事件后才能调用。后台接入方式与小程序一致，详见 客服消息接入*/
+    function openCustomerServiceConversation(object: {
+        sessionFrom?: string,
+        showMessageCard?: boolean,
+        sendMessageTitle?: string,
+        sendMessagePath?: string,
+        sendMessageImg?: string,
+        success?: (res?: any) => void,
+        fail?: (res?: any) => void,
+        complete?: (res?: any) => void
+    }): void;
+
+    /** 获取用户过去三十天微信运动步数。需要先调用 wx.login 接口。步数信息会在用户主动进入小程序时更新。*/
+    function getWeRunData(object: {
+        success?: (res: { encryptedData: string, iv: string }) => void,
+        fail?: (res?: any) => void,
+        complete?: (res?: any) => void
+    }): void;
+
+    /** 取消监听横竖屏切换事件*/
+    function offDeviceOrientationChange(callback: () => void): void;
+
+    /** 监听横竖屏切换事件*/
+    function onDeviceOrientationChange(callback: (res: { value: 'portrait' | 'landscape' | 'landscapeReverse' }) => void): void;
+
+    /** 监听加速度数据事件。频率根据 wx.startAccelerometer() 的 interval 参数。可使用 wx.stopAccelerometer() 停止监听。*/
+    function onAccelerometerChange(callback: (res: { x: number, y: number, z: number }) => void): void;
+
+    /** 停止监听加速度数据。*/
+    function stopAccelerometer(object: {
+        success?: (res: { encryptedData: string, iv: string }) => void,
+        fail?: (res?: any) => void,
+        complete?: (res?: any) => void
+    }): void;
+
+    /** 开始监听加速度数据。*/
+    function startAccelerometer(object: {
+        interval: string,
+        success?: (res: { encryptedData: string, iv: string }) => void,
+        fail?: (res?: any) => void,
+        complete?: (res?: any) => void
+    }): void;
+
+    /**
+     * 获取设备电量
+     */
+    function getBatteryInfo(object: {
+        success?: (res: { level: string, isCharging: boolean }) => void,
+        fail?: (res?: any) => void,
+        complete?: (res?: any) => void
+    }): void;
+
+    /**
+     * wx.getBatteryInfo 的同步版本
+     */
+    function getBatteryInfoSync(): { level: string, isCharging: boolean };
+
+    /** 获取系统剪贴板的内容*/
+    function getClipboardData(object: {
+        success?: (res: { data: string }) => void,
+        fail?: (res?: any) => void,
+        complete?: (res?: any) => void
+    }): void;
+
+    /** 设置系统剪贴板的内容*/
+    function setClipboardData(object: {
+        data: string,
+        success?: (res?: any) => void,
+        fail?: (res?: any) => void,
+        complete?: (res?: any) => void
+    }): void;
+
+    /**
+     * 监听罗盘数据，频率：5 次/秒，接口调用后会自动开始监听，可使用 wx.stopCompass 停止监听。
+     * accuracy 在 iOS/Android 的差异
+     * 由于平台差异，accuracy 在 iOS/Android 的值不同。
+     * iOS：accuracy 是一个 number 类型的值，表示相对于磁北极的偏差。0 表示设备指向磁北，90 表示指向东，180 表示指向南，依此类推。
+     * Android：accuracy 是一个 string 类型的枚举值。
+     */
+    function onCompassChange(callback: (res: { direction: number, accuracy: number | string }) => void): void;
+
+    /**
+     * 开始监听陀螺仪数据。
+     */
+    function startCompass(object: {
+        interval?: string,
+        success?: (res?: any) => void,
+        fail?: (res?: any) => void,
+        complete?: (res?: any) => void
+    }): void;
+
+    /**
+     * 停止监听陀螺仪数据。
+     */
+    function stopCompass(object: {
+        success?: (res?: any) => void,
+        fail?: (res?: any) => void,
+        complete?: (res?: any) => void
+    }): void;
+
+    /**
+     * 监听设备方向变化事件。频率根据 wx.startDeviceMotionListening() 的 interval 参数。可以使用 wx.stopDeviceMotionListening() 停止监听。
+     */
+    function onDeviceMotionChange(callback: (res: {
+        alpha: number,
+        beta: number,
+        gamma: number,
+    }) => void): void;
+
+    /** 停止监听设备方向的变化。*/
+    function stopDeviceMotionListening(
+        success?: (res?: any) => void,
+        fail?: (res?: any) => void,
+        complete?: (res?: any) => void
+    ): void;
+
+    /** 开始监听设备方向的变化。*/
+    function startDeviceMotionListening(
+        interval: string,
+        success?: (res?: any) => void,
+        fail?: (res?: any) => void,
+        complete?: (res?: any) => void
+    ): void;
+
+    /** 监听网络状态变化事件*/
+    function onNetworkStatusChange(callback: (res: { isConnected: boolean, networkType: string }) => void): void;
+
+    /** 获取网络类型*/
+    function getNetworkType(object: {
+        success?: (res: { networkType: string }) => void,
+        fail?: (res?: any) => void,
+        complete?: (res?: any) => void
+    }): void;
+
+    /** 使手机发生较长时间的振动（400 ms)*/
+    function vibrateLong(object: {
+        success?: (res?: any) => void,
+        fail?: (res?: any) => void,
+        complete?: (res?: any) => void
+    }): void;
+
+    /** 使手机发生较短时间的振动（15 ms）。仅在 iPhone 7 / 7 Plus 以上及 Android 机型生效*/
+    function vibrateShort(object: {
+        success?: (res?: any) => void,
+        fail?: (res?: any) => void,
+        complete?: (res?: any) => void
+    }): void;
+
+    /** 
+     * 监听内存不足告警事件。
+     * 当 iOS/Android 向小程序进程发出内存警告时，触发该事件。触发该事件不意味小程序被杀，大部分情况下仅仅是告警，开发者可在收到通知后回收一些不必要资源避免进一步加剧内存紧张。
+     */
+    function onMemoryWarning(callback: (res: { level: number }) => void): void;
+
+    /** 设置屏幕亮度*/
+    function setScreenBrightness(object: {
+        value: number,
+        success?: (res?: any) => void,
+        fail?: (res?: any) => void,
+        complete?: (res?: any) => void
+    }): void;
+
+    /** 设置是否保持常亮状态。仅在当前小程序生效，离开小程序后设置失效。*/
+    function setKeepScreenOn(object: {
+        keepScreenOn: boolean,
+        success?: (res?: any) => void,
+        fail?: (res?: any) => void,
+        complete?: (res?: any) => void
+    }): void;
+
+    /** 获取屏幕亮度*/
+    function getScreenBrightness(object: {
+        success?: (res: { value: number }) => void,
+        fail?: (res?: any) => void,
+        complete?: (res?: any) => void
+    }): void;
 
     /**
      * 对于游戏来说，每帧 16ms 是极其宝贵的，如果有一些可以异步处理的任务，可以放置于 Worker 中运行，待运行结束后，再把结果返回到主线程。Worker 运行于一个单独的全局上下文与线程中，不能直接调用主线程的方法，Worker 也不具备渲染的能力。 Worker 与主线程之间的数据传输，双方使用 Worker.postMessage() 来发送数据，Worker.onMessage() 来接收数据，传输的数据并不是直接共享，而是被复制的。
