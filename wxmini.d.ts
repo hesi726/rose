@@ -788,8 +788,930 @@ declare namespace wx {
      */
     function sendSocketMessage(object: { data: string | ArrayBuffer, success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
 
-}
+    /** 
+     * 更新转发属性
+     * 
+     */
+    function updateShareMenu(object: { withShareTicket?: false, isUpdatableMessage?: false, activityId?: string, templateInfo?: { parameterList: Array<{ name: string, value: string }> }, success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
 
+    /**
+     * 显示当前页面的转发按钮
+     */
+    function showShareMenu(object: { withShareTicket?: false, success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+
+    /**
+     * 隐藏转发按钮
+     * 
+     */
+    function hideShareMenu(object: { success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+
+    /**
+     * 获取转发详细信息
+     *  
+     */
+    function getShareInfo(object: {
+        shareTicket: string,
+        timeout: number,
+        success?: (res: {
+            errMsg: string,
+            encryptedData: string,
+            iv: string
+        }) => void,
+        fail?: (res?: any) => void,
+        complete?: (res?: any) => void
+    }): void;
+
+    /**
+     * 主动拉起转发，进入选择通讯录界面。
+     */
+    function shareAppMessage(object: { title?: string, imageUrl?: string, query?: string }): void;
+
+    /**
+     * 取消监听用户点击右上角菜单的“转发”按钮时触发的事件
+     */
+    function offShareAppMessage(callback: () => void): void;
+
+    /**
+     * 监听用户点击右上角菜单的“转发”按钮时触发的事件
+     */
+    function onShareAppMessage(callback: (res: {
+        title: string,
+        imageUrl: string,
+        query: string
+    }) => void): void;
+
+
+    /**
+    * 发起米大师支付
+    */
+    function requestMidasPayment(object: {
+        mode: string,
+        env?: 0 | 1,
+        offerId: string,
+        currencyType: string,
+        platform?: string,
+        buyQuantity?: number,
+        zoneId?: string,
+        success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void
+    }): void;
+
+    /**
+     * wx.getStorageInfo 的同步版本
+     */
+    function getStorageInfoSync(): { keys: Array<string>, currentSize: number, limitSize: number };
+
+    /**
+     * 异步获取当前storage的相关信息
+     */
+    function getStorageInfo(object: { success?: (res: { keys: Array<string>, currentSize: number, limitSize: number }) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+
+    /**
+     * wx.clearStorage 的同步版本
+     */
+    function clearStorageSync(): void;
+
+    /**
+     * 清理本地数据缓存
+     */
+    function clearStorage(object: { success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+
+    /**
+     * wx.removeStorage 的同步版本
+     */
+    function removeStorageSync(key: string): void;
+
+    /**
+     * 从本地缓存中移除指定 key
+     */
+    function removeStorage(object: { key: string, success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+
+    /**
+     * wx.setStorage 的同步版本
+     */
+    function setStorageSync(key: string, data: any): void;
+
+    /**
+     * 将数据存储在本地缓存中指定的 key 中，会覆盖掉原来该 key 对应的内容。
+     */
+    function setStorage(object: { key: string, data: any, success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+
+    /**
+     * wx.getStorage 的同步版本
+     */
+    function getStorageSync(key: string): any;
+
+    /**
+     * 从本地缓存中异步获取指定 key 的内容
+     */
+    function getStorage(object: { key: string, success?: (res: { data: any }) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+
+    /**
+     * 设置 InnerAudioContext 的播放选项。设置之后对当前小程序全局生效。
+     */
+    function setInnerAudioOption(mixWithOther: true, obeyMuteSwitch: true, success?: (res: { data: any }) => void, fail?: (res?: any) => void, complete?: (res?: any) => void): void;
+
+    /**
+     * 获取当前支持的音频输入源
+     */
+    function getAvailableAudioSources(success?: (res: { audioSources: Array<'auto' | 'buildInMic' | 'headsetMic' | 'mic' | 'camcorder' | 'voice_communication' | 'voice_recognition'> }) => void, fail?: (res?: any) => void, complete?: (res?: any) => void): void;
+
+    /**
+     * InnerAudioContext 实例，可通过 wx.createInnerAudioContext 接口获取实例。
+     */
+    interface InnerAudioContext {
+        /** 音频资源的地址，用于直接播放。2.2.3 开始支持云文件ID*/
+        src: string;
+        /** 开始播放的位置（单位：s），默认为 0*/
+        startTime: number;
+        /** 是否自动开始播放，默认为 false*/
+        autoplay: boolean;
+        /** 是否循环播放，默认为 false*/
+        loop: boolean;
+        /** 是否遵循系统静音开关，默认为 true。当此参数为 false 时，即使用户打开了静音开关，也能继续发出声音*/
+        obeyMuteSwitch: boolean;
+        /** 基础库 1.9.90 开始支持，低版本需做兼容处理。音量。范围 0~1。默认为 1*/
+        volume: number;
+        /** 当前音频的长度（单位 s）。只有在当前有合法的 src 时返回（只读）*/
+        duration: number;
+        /** 当前音频的播放位置（单位 s）。只有在当前有合法的 src 时返回，时间保留小数点后 6 位（只读）*/
+        currentTime: number;
+        /** 当前是是否暂停或停止状态（只读）*/
+        paused: boolean;
+        /** 音频缓冲的时间点，仅保证当前播放时间点到此时间点内容已缓冲（只读）*/
+        buffered: number;
+        /**
+         * 销毁当前实例
+         */
+        destroy(): void;
+        /**
+         * 取消监听音频进入可以播放状态的事件
+         */
+        offCanplay(callback: () => void): void;
+        /**
+         * 监听音频暂停事件
+         */
+        onPause(callback: () => void): void;
+        /**
+         * 监听音频停止事件
+         */
+        onStop(callback: () => void): void;
+        /**
+         * 取消监听音频停止事件
+         */
+        offStop(callback: () => void): void;
+        /**
+         * 监听音频自然播放至结束的事件
+         */
+        onEnded(callback: () => void): void;
+        /**
+         * 取消监听音频自然播放至结束的事件
+         */
+        offEnded(callback: () => void): void;
+        /**
+         * 监听音频播放进度更新事件
+         */
+        onTimeUpdate(callback: () => void): void;
+        /**
+         * 监听音频播放事件
+         */
+        onPlay(callback: () => void): void;
+        /**
+         * 监听音频播放错误事件
+         */
+        onError(callback: (res: { errCode: 10001 | 10002 | 10003 | 10004 | -1 }) => void): void;
+        /**
+         * 取消监听音频暂停事件
+         */
+        offPause(callback: () => void): void;
+        /**
+         * 监听音频加载中事件，当音频因为数据不足，需要停下来加载时会触发
+         */
+        onWaiting(callback: () => void): void;
+        /**
+         * 取消监听音频加载中事件，当音频因为数据不足，需要停下来加载时会触发
+         */
+        offWaiting(callback: () => void): void;
+        /**
+         * 监听音频进行跳转操作的事件
+         */
+        onSeeking(callback: () => void): void;
+        /**
+         * 取消监听音频进行跳转操作的事件
+         */
+        offSeeking(callback: () => void): void;
+        /**
+         * 监听音频完成跳转操作的事件
+         */
+        onSeeked(callback: () => void): void;
+        /**
+         * 取消监听音频完成跳转操作的事件
+         */
+        offSeeked(callback: () => void): void;
+        /**
+         * 取消监听音频播放事件
+         */
+        offPlay(callback: () => void): void;
+        /**
+         * 取消监听音频播放进度更新事件
+         */
+        offTimeUpdate(callback: () => void): void;
+        /**
+         * 监听音频进入可以播放状态的事件
+         */
+        onCanplay(callback: () => void): void;
+        /**
+         * 取消监听音频播放错误事件
+         */
+        offError(callback: () => void): void;
+        /**
+         * 停止。停止后的音频再播放会从头开始播放。
+         */
+        pause(): void;
+        /**
+         * 播放
+         */
+        play(): void;
+        /**
+         * 跳转到指定位置，单位 s
+         */
+        seek(position: number): void;
+    }
+    /**
+     * 创建内部 audio 上下文 InnerAudioContext 对象。
+     */
+    function createInnerAudioContext(): InnerAudioContext;
+
+    /**
+     * 从本地相册选择图片或使用相机拍照。
+     */
+    function chooseImage(object: {
+        count: 9,
+        sizeType?: ['original', 'compressed'],
+        sourceType?: ['album', 'camera'],
+        success?: (res: {
+            tempFilePaths: Array<string>,
+            tempFiles: Array<{ path: string, size: number }>
+        }) => void,
+        fail?: (res?: any) => void,
+        complete?: (res?: any) => void
+    }): void;
+
+    /**
+     * 预览图片
+     */
+    function previewImage(object: { urls: string[], current?: string, success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+    /**
+     * 保存图片到系统相册。
+     */
+    function saveImageToPhotosAlbum(object: { filePath: string, success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+
+    /**全局唯一的录音管理器 */
+    interface RecorderManager {
+        /**
+         * 监听录音暂停事件
+         */
+        onPause(callback: () => void): void;
+        /**
+         * 监听录音结束事件
+         */
+        onStop(callback: (res: { tempFilePath: string }) => void): void;
+        /**
+         * 监听已录制完指定帧大小的文件事件。如果设置了 frameSize，则会回调此事件。
+         */
+        onFrameRecorded(callback: (res: { frameBuffer: ArrayBuffer, isLastFrame: boolean }) => void): void;
+        /**
+         * 监听录音错误事件
+         */
+        onError(callback: (res: { errMsg: string }) => void): void;
+        /**
+         * 监听录音开始事件
+         */
+        onStart(callback: () => void): void;
+        /**
+         * 监听录音因为受到系统占用而被中断开始事件。以下场景会触发此事件：微信语音聊天、微信视频聊天。此事件触发后，录音会被暂停。pause 事件在此事件后触发
+         */
+        onInterruptionBegin(callback: () => void): void;
+        /**
+         * 监听录音中断结束事件。在收到 interruptionBegin 事件之后，小程序内所有录音会暂停，收到此事件之后才可再次录音成功。
+         */
+        onInterruptionEnd(callback: () => void): void;
+        /**
+         * 监听录音继续事件
+         */
+        onResume(callback: () => void): void;
+        /**
+         * 暂停录音
+         */
+        pause(): void;
+        /**
+         * 继续录音
+         */
+        resume(): void;
+        /**
+         * 停止录音
+         */
+        stop(): void;
+        /**
+         * 开始录音
+         */
+        start(object: { duration?: number, sampleRate?: number, numberOfChannels?: number, encodeBitRate?: number, format?: string, frameSize?: number, audioSource?: string }): void;
+    }
+
+    /**
+     * 获取全局唯一的录音管理器 RecorderManager
+     */
+    function getRecorderManager(): RecorderManager;
+
+    /** 视频对象*/
+    interface Video {
+        /** 视频的左上角横坐标*/
+        x: number;
+        /** 视频的左上角纵坐标*/
+        y: number;
+        /** 视频的宽度*/
+        width: number;
+        /** 视频的高度*/
+        height: number;
+        /** 视频的资源地址*/
+        src: number;
+        /** 视频的封面*/
+        poster: number;
+        /** 视频的初始播放位置，单位为 s 秒*/
+        initialTime: number;
+        /** 视频的播放速率，有效值有 0.5、0.8、1.0、1.25、1.5*/
+        playbackRate: number;
+        /** 视频是否为直播*/
+        live: number;
+        /** 视频的缩放模式*/
+        objectFit: number;
+        /** 视频是否显示控件*/
+        controls: number;
+        /** 视频是否自动播放*/
+        autoplay: number;
+        /** 视频是否是否循环播放*/
+        loop: number;
+        /** 视频是否禁音播放*/
+        muted: number;
+        /** 是否启用手势控制播放进度*/
+        enableProgressGesture: boolean;
+        /** 是否显示视频中央的播放按钮*/
+        showCenterPlayBtn: boolean;
+
+        /** 视频开始缓冲时触发的回调函数*/
+        onwaiting: () => void;
+
+        /** 视频开始播放时触发的回调函数*/
+        onplay: () => void;
+
+        /** 视频暂停时触发的回调函数*/
+        onpause: () => void;
+
+        /** 视频播放到末尾时触发的回调函数*/
+        onended: () => void;
+
+        /** 每当视频播放进度更新时触发的回调函数*/
+        ontimeupdate: () => void;
+
+        /** 视频发生错误时触发的回调函数*/
+        onerror: () => void;
+
+        /**
+         * 视频退出全屏
+         */
+        exitFullScreen(): Promise<Object>;
+        /**
+         * 取消监听视频暂停事件
+         */
+        offPause(callback: () => void): void;
+        /**
+         * 监听视频播放到末尾事件
+         */
+        onEnded(callback: () => void): void;
+        /**
+         * 取消监听视频播放到末尾事件
+         */
+        offEnded(callback: () => void): void;
+        /**
+         * 监听视频播放进度更新事件
+         */
+        onTimeUpdate(callback: (res: { position: number, duration: number }) => void): void;
+        /**
+         * 取消监听视频播放进度更新事件
+         */
+        offTimeUpdate(callback: () => void): void;
+        /**
+         * 监听视频错误事件
+         */
+        onError(callback: (res: { errMsg: string }) => void): void;
+        /**
+         * 取消监听视频错误事件
+         */
+        offError(callback: () => void): void;
+        /**
+         * 监听视频播放事件
+         */
+        onPlay(callback: () => void): void;
+        /**
+         * 监听视频暂停事件
+         */
+        onPause(callback: () => void): void;
+        /**
+         * 取消监听视频缓冲事件
+         */
+        offWaiting(callback: () => void): void;
+        /**
+         * 监听视频缓冲事件
+         */
+        onWaiting(callback: () => void): void;
+        /**
+         * 取消监听视频播放事件
+         */
+        offPlay(callback: () => void): void;
+        /**
+         * 暂停视频
+         */
+        pause(): Promise<any>;
+        /**
+         * 播放视频
+         */
+        play(): Promise<any>;
+        /**
+         * 视频全屏
+         */
+        requestFullScreen(): Promise<any>;
+        /**
+         * 视频跳转
+         */
+        seek(time: number): Promise<any>;
+        /**
+         * 停止视频
+         */
+        stop(): Promise<Object>;
+    }
+
+    /**
+     * 创建视频
+     */
+    function createVideo(object: {
+        x?: number, y?: number,
+        width?: number, height?: number,
+        src: number, poster: number,
+        initialTime?: number, playbackRate?: number,
+        live?: number, objectFit?: number,
+        controls?: number, autoplay?: number,
+        loop?: number, muted?: number,
+        enableProgressGesture: boolean,
+        showCenterPlayBtn: boolean
+    }): Video;
+
+    /**
+     * 获取当前的地理位置、速度。当用户离开小程序后，此接口无法调用；当用户点击“显示在聊天顶部”时，此接口可继续调用。
+     */
+    function getLocation(object: {
+        type?: string, altitude: string,
+        success?: (res: {
+            latitude: number,
+            longitude: number,
+            speed: number,
+            accuracy: number,
+            altitude: number,
+            verticalAccuracy: number,
+            horizontalAccuracy: number
+        }) => void,
+        fail?: (res?: any) => void,
+        complete?: (res?: any) => void
+    }): void;
+
+    /** 文件管理器*/
+    interface FileSystemManager {
+        /**
+         * 判断文件/目录是否存在
+         */
+        access(object: {
+            path: string,
+            success?: (res?: any) => void,
+            fail?: (res?: { errMsg: string }) => void,
+            complete?: (res?: any) => void
+        }): void;
+        /**
+         * FileSystemManager.access 的同步版本
+         */
+        accessSync(path: string): void;
+
+        /** 在文件结尾追加内容*/
+        appendFile(filePath: string,
+            data: string | ArrayBuffer,
+            encoding: string,
+            success?: (res?: any) => void,
+            fail?: (res: { errMsg: string }) => void,
+            complete?: (res?: any) => void): void;
+
+        /** appendFile同步版本*/
+        appendFileSync(filePath: string, data: string | ArrayBuffer, encoding: string): void;
+
+        /**
+        * 保存临时文件到本地。此接口会移动临时文件，因此调用成功后，tempFilePath 将不可用。
+        */
+        saveFile(object: { tempFilePath: string, filePath?: string, success?: (res: { savedFilePath: number }) => void, fail?: (res: { errMsg: string }) => void, complete?: (res?: any) => void }): void;
+
+        /**
+        * FileSystemManager.saveFile 的同步版本
+        */
+        saveFileSync(tempFilePath: string, filePath: string): number;
+
+        /**
+         * 获取该小程序下已保存的本地缓存文件列表
+         */
+        getSavedFileList(object: { success?: (res: { fileList: Array<{ filePath: string, size: number, createTime: number }> }) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+
+        /**
+         * 删除该小程序下已保存的本地缓存文件
+         */
+        removeSavedFile(object: { filePath: string, success?: (res?: any) => void, fail?: (res: { errMsg: string }) => void, complete?: (res?: any) => void }): void;
+
+        /**
+         * 复制文件
+         */
+        copyFile(object: { srcPath: string, destPath: string, success?: (res?: any) => void, fail?: (res: { errMsg: string }) => void, complete?: (res?: any) => void }): void;
+
+        /**
+         * FileSystemManager.copyFile 的同步版本
+         */
+        copyFileSync(srcPath: string, destPath: string): void;
+
+        /**
+         * 获取该小程序下的 本地临时文件 或 本地缓存文件 信息
+         */
+        getFileInfo(object: { filePath: string, success?: (res: { size: number }) => void, fail?: (res: { errMsg: string }) => void, complete?: (res?: any) => void }): void;
+
+        /**
+         * 创建目录
+         */
+        mkdir(object: { dirPath: string, recursive?: boolean, success?: (res?: any) => void, fail?: (res: { errMsg: string }) => void, complete?: (res?: any) => void }): void;
+
+        /**
+         * FileSystemManager.mkdir 的同步版本
+         */
+        mkdirSync(dirPath: string): void;
+
+        /**
+         * 读取本地文件内容
+         */
+        readFile(object: { filePath: string, encoding?: string, success?: (res: { data: string | ArrayBuffer }) => void, fail?: (res: { errMsg: string }) => void, complete?: (res?: any) => void }): void;
+
+        /**
+         * FileSystemManager.readFile 的同步版本
+         */
+        readFileSync(filePath: string, encoding: string): string | ArrayBuffer;
+
+        /**
+         * 读取目录内文件列表
+         */
+        readdir(object: { dirPath: string, success?: (res: { files: Array<string> }) => void, fail?: (res: { errMsg: string }) => void, complete?: (res?: any) => void }): void;
+        /**
+         * FileSystemManager.readdir 的同步版本
+         */
+        readdirSync(dirPath: string): string[];
+
+        /**
+         * 重命名文件，可以把文件从 oldPath 移动到 newPath
+         */
+        rename(object: { oldPath: string, newPath: string, success?: (res?: any) => void, fail?: (res: { errMsg: string }) => void, complete?: (res?: any) => void }): void;
+
+        /**
+        * FileSystemManager.rename 的同步版本
+        */
+        renameSync(oldPath: string, newPath: string): void;
+
+        /**
+         * 删除目录
+         */
+        rmdir(object: { dirPath: string, recursive: boolean, success?: (res?: any) => void, fail?: (res: { errMsg: string }) => void, complete?: (res?: any) => void }): void;
+
+        /**
+         * FileSystemManager.rmdir 的同步版本
+         */
+        rmdirSync(dirPath: string, recursive: boolean): void;
+
+        /**
+         * 获取文件 Stats 对象
+         */
+        stat(object: { path: string, recursive?: boolean, success?: (res: { stats: Stats | Object }) => void, fail?: (res: { errMsg: string }) => void, complete?: (res?: any) => void }): Stats;
+
+        /**
+         * FileSystemManager.stat 的同步版本
+         */
+        statSync(path: string, recursive: boolean): Stats;
+
+        /**
+         * 删除文件
+         */
+        unlink(object: { filePath: string, success?: (res?: any) => void, fail?: (res: { errMsg: string }) => void, complete?: (res?: any) => void }): void;
+
+        /**
+         * 解压文件
+         */
+        unzip(object: { zipFilePath: string, targetPath: string, success?: (res?: any) => void, fail?: (res: { errMsg: string }) => void, complete?: (res?: any) => void }): void;
+
+        /**
+         * FileSystemManager.unlink 的同步版本
+         */
+        unlinkSync(filePath: string): void;
+
+        /**
+         * 写文件
+         */
+        writeFile(object: { filePath: string, data: string | ArrayBuffer, encoding: string, success?: (res?: any) => void, fail?: (res: { errMsg: string }) => void, complete?: (res?: any) => void }): void;
+
+        /**
+         * FileSystemManager.writeFile 的同步版本
+         */
+        writeFileSync(filePath: string, data: string | ArrayBuffer, encoding: string): void;
+    }
+
+    /** 描述文件状态的对象*/
+    interface Stats {
+        /**
+         * 文件的类型和存取的权限，对应 POSIX stat.st_mode
+         */
+        mode: string;
+        /**
+         * 文件大小，单位：B，对应 POSIX stat.st_size
+         */
+        size: number;
+        /**
+         * 文件最近一次被存取或被执行的时间，UNIX 时间戳，对应 POSIX stat.st_atime
+         */
+        lastAccessedTime: number;
+        /**
+        * 文件最后一次被修改的时间，UNIX 时间戳，对应 POSIX stat.st_mtime
+        */
+        lastModifiedTime: number;
+        /**
+         * 判断当前文件是否一个目录
+         */
+        isDirectory(): boolean;
+        /**
+         * 判断当前文件是否一个普通文件
+         */
+        isFile(): boolean;
+    }
+
+    /**
+     * 获取全局唯一的文件管理器
+     */
+    function getFileSystemManager(): FileSystemManager;
+
+    /** 打开另一个小程序*/
+    function navigateToMiniProgram(object: {
+        appId: string,
+        path?: string,
+        extraData?: {},
+        envVersion?: string,
+        success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void
+    }): void;
+
+    /**
+     * 用户信息
+     */
+    interface UserInfo {
+        /** 用户昵称*/
+        nickName: string;
+        /** 用户头像图片的 URL。URL 最后一个数值代表正方形头像大小（有 0、46、64、96、132 数值可选，0 代表 640x640 的正方形头像，46 表示 46x46 的正方形头像，剩余数值以此类推。默认132），用户没有头像时该项为空。若用户更换头像，原有头像 URL 将失效。*/
+        avatarUrl: string;
+        /** 用户性别*/
+        gender: 0 | 1 | 2;
+        /** 用户所在国家*/
+        country: string;
+        /** 用户所在省份*/
+        province: string;
+        /** 用户所在城市*/
+        city: string;
+        /** 显示 country，province，city 所用的语言*/
+        language: 'en' | 'zh_CN' | 'zh_TW'
+    }
+
+    /**
+     * 调用前需要 用户授权 scope.userInfo。
+     * 获取用户信息。
+     */
+    function getUserInfo(object: {
+        withCredentials?: boolean, lang?: string, success?: (res: {
+            ƒ
+            userInfo: UserInfo,
+            rawData: string,
+            signature: string,
+            encryptedData: string,
+            iv: string
+        }) => void, fail?: (res?: any) => void, complete?: (res?: any) => void
+    }): void;
+
+    /** 用户信息按钮*/
+    interface UserInfoButton {
+        /** 按钮的类型*/
+        type: 'text' | 'image';
+        /** 按钮上的文本，仅当 type 为 text 时有效*/
+        text: string;
+        /** 按钮的背景图片，仅当 type 为 image 时有效*/
+        image: string;
+        /** 按钮的样式*/
+        style: {
+            left: number,
+            top: number,
+            width: number,
+            height: number,
+            backgroundColor: string,
+            borderColor: string,
+            borderWidth: number,
+            borderRadius: number,
+            textAlign: string,
+            fontSize: number,
+            lineHeight: number
+        },
+        /** 显示用户信息按钮*/
+        show();
+
+        /** 隐藏用户信息按钮。*/
+        hide();
+
+        /** 销毁用户信息按钮*/
+        destroy();
+
+        /** 监听用户信息按钮的点击事件*/
+        onTap(callback: (res: {
+            userInfo: UserInfo,
+            rawData: string,
+            signature: string,
+            encryptedData: string,
+            iv: string
+        }) => void);
+
+        /** 取消监听用户信息按钮的点击事件*/
+        offTap(callback: () => void);
+    }
+
+    /** 创建用户信息按钮*/
+    function createUserInfoButton(object: {
+        type: string,
+        text: string,
+        image: string,
+        style: {
+            left: number,
+            top: number,
+            width: number,
+            height: number,
+            backgroundColor: string,
+            borderColor: string,
+            borderWidth: number,
+            borderRadius: number,
+            textAlign: string,
+            fontSize: number,
+            lineHeight: number
+        },
+        withCredentials: boolean,
+        lang: string
+    }): UserInfoButton;
+
+    /**
+     * 通过 wx.login 接口获得的用户登录态拥有一定的时效性。用户越久未使用小程序，用户登录态越有可能失效。反之如果用户一直在使用小程序，则用户登录态一直保持有效。具体时效逻辑由微信维护，对开发者透明。开发者只需要调用 wx.checkSession 接口检测当前用户登录态是否有效。登录态过期后开发者可以再调用 wx.login 获取新的用户登录态。
+     */
+    function checkSession(object: { success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+
+    /** 提前向用户发起授权请求。调用后会立刻弹窗询问用户是否同意授权小程序使用某项功能或获取用户的某些数据，但不会实际调用对应接口。如果用户之前已经同意授权，则不会出现弹窗，直接返回成功。更多用法详见 用户授权。*/
+    function authorize(object: { scope: string, success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+
+    /**
+     * 调用接口获取登录凭证（code）进而换取用户登录态信息，包括用户的唯一标识（openid） 及本次登录的 会话密钥（session_key）等。用户数据的加解密通讯需要依赖会话密钥完成。
+     */
+    function login(object: { timeout?: number, success?: (res: { code: string }) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+
+    /**
+     * 只有开放数据域能调用，获取主域和开放数据域共享的 sharedCanvas
+     */
+    function getSharedCanvas(): Canvas;
+
+    /** 托管的 KV 数据*/
+    interface KVData {
+        /** 数据的 key*/
+        key: string;
+        /** 数据的 value*/
+        value: string;
+    }
+
+    /** 托管数据*/
+    interface UserGameData {
+        /** 用户的微信头像 url*/
+        avatarUrl: string;
+        /** 用户的微信昵称*/
+        nickname: string;
+        /** 用户的 openid*/
+        openid: string;
+        /** 用户的托管 KV 数据列表*/
+        KVDataList: Array<KVData>;
+    }
+
+    /**
+     * 拉取当前用户所有同玩好友的托管数据。该接口只可在开放数据域下使用
+     */
+    function getFriendCloudStorage(object: { keyList: string[], success?: (res: { data: Array<UserGameData> }) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+
+    /**
+     * 在小游戏是通过群分享卡片打开的情况下，可以通过调用该接口获取群同玩成员的游戏数据。该接口只可在开放数据域下使用。
+     */
+    function getGroupCloudStorage(object: { shareTicket: string, keyList: string[], success?: (res: { data: Array<UserGameData> }) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+
+    /**
+     * 获取当前用户托管数据当中对应 key 的数据。该接口只可在开放数据域下使用
+     */
+    function getUserCloudStorage(object: { keyList: Array<string>, success?: (res: { KVDataList: Array<KVData> }) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+
+    /**
+     * 删除用户托管数据当中对应 key 的数据。
+     */
+    function removeUserCloudStorage(object: { keyList: string[], success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+
+    /**
+     * 对用户托管数据进行写数据操作，允许同时写多组 KV 数据。
+     */
+    function setUserCloudStorage(object: { KVDataList: Array<KVData>, success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+
+    /** 在无须用户授权的情况下，批量获取用户信息。该接口只在开放数据域下可用*/
+    function getUserInfo(object: {
+        /** 要获取信息的用户的 openId 数组，如果要获取当前用户信息，则将数组中的一个元素设为 'selfOpenId'*/
+        openIdList?: Array<string>,
+        /** 显示用户信息的语言*/
+        lang?: 'en' | 'zh_CN' | 'zh_TW',
+        success?: (res: {
+            data: Array<{
+                avatarUrl: string,
+                city: string,
+                country: string,
+                gender: number,
+                language: string,
+                nickName: string,
+                openId: string,
+                province: string
+            }>
+        }) => void, fail?: (res?: any) => void, complete?: (res?: any) => void
+    }): void;
+
+    /**
+     * 监听主域发送的消息
+     */
+    function onMessage(callback: () => void): void;
+
+    /** 开放数据域对象*/
+    interface OpenDataContext {
+        /** 开放数据域和主域共享的 sharedCanvas*/
+        canvas: Canvas;
+        /**
+         * 向开放数据域发送消息
+         * @param message {} 要发送的消息，message 中及嵌套对象中 key 的 value 只能是 primitive value。即 number、string、boolean、null、undefined。
+         */
+        postMessage(message: {}): void;
+    }
+
+    /**
+     * 获取开放数据域
+     */
+    function getOpenDataContext(): OpenDataContext;
+
+    /**
+     * 根据用户当天游戏时间判断用户是否需要休息
+     */
+    function checkIsUserAdvisedToRest(object: {
+        todayPlayedTime: number,
+        success?: (res: { result: boolean }) => void,
+        fail?: (res?: any) => void, complete?: (res?: any) => void
+    }): void;
+
+    
+
+
+    /**
+     * 对于游戏来说，每帧 16ms 是极其宝贵的，如果有一些可以异步处理的任务，可以放置于 Worker 中运行，待运行结束后，再把结果返回到主线程。Worker 运行于一个单独的全局上下文与线程中，不能直接调用主线程的方法，Worker 也不具备渲染的能力。 Worker 与主线程之间的数据传输，双方使用 Worker.postMessage() 来发送数据，Worker.onMessage() 来接收数据，传输的数据并不是直接共享，而是被复制的。
+     * @see https://developers.weixin.qq.com/minigame/dev/tutorial/usability/worker.html
+     */
+    interface Worker {
+        /**
+         * 监听接收主线程/Worker 线程向当前线程发送的消息
+         */
+        onMessage(callback: (res: { message: Object }) => void): void;
+        /**
+         * 向主线程/Worker 线程发送的消息。
+         */
+        postMessage(message: {}): void;
+        /**
+         * 结束当前 worker 线程，仅限在主线程 worker 对象上调用。
+         */
+        terminate(): void;
+    }
+
+    /**
+    * 创建一个 Worker 线程，目前限制最多只能创建一个 Worker，创建下一个 Worker 前请调用 Worker.terminate
+    */
+    function createWorker(scriptPath: string): Worker;
+}
 
 // /**
 //  * 基础库 2.0.0 开始支持，低版本需做兼容处理。
