@@ -4,7 +4,7 @@
  * [文件路径](./wxmini.d.ts)
 
 ### 使用说明
- * egret 项目
+ * egret 项目 复制 `wxmini.d.ts` 文件到 `libs` 目录下即可
  * layabox 项目
 
 ### 注意事项
