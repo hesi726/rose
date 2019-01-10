@@ -654,8 +654,8 @@ declare namespace wx {
         data?: string | {} | ArrayBuffer,
         header?: {},
         method?: 'OPTIONS' | 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'TRACE' | 'CONNECT',
-        dataType?: 'json',
-        responseType: 'text',
+        dataType?: 'json' | string,
+        responseType: 'text' | 'arraybuffer',
         success?: (res?: {
             data: string | {} | ArrayBuffer,
             statusCode: number,
