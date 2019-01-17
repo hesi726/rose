@@ -205,7 +205,7 @@ declare namespace wx {
         /**
          * 获取画布对象的绘图上下文
          */
-        getContext(contextType: '2d' | 'webgl', contextAttributes: { antialias?: false, preserveDrawingBuffer?: false, antialiasSamples?: 2 }): RenderingContext;
+        getContext(contextType: '2d' | 'webgl', contextAttributes: { antialias?: boolean, preserveDrawingBuffer?: boolean, antialiasSamples?: 2 }): RenderingContext;
         /**
          * 将当前 Canvas 保存为一个临时文件，并生成相应的临时文件路径。
          */
@@ -545,13 +545,13 @@ declare namespace wx {
     /** 隐藏 loading 提示框*/
     function hideLoading(object: { success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
     /** 显示 loading 提示框。需主动调用 wx.hideLoading 才能关闭提示框*/
-    function showLoading(object: { title: string, mask?: false, success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+    function showLoading(object: { title: string, mask?: boolean, success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
 
     /** 隐藏消息提示框*/
     function hideToast(object: { success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
 
     /** 显示消息提示框*/
-    function showToast(object: { title: string, icon?: 'success' | 'loading' | 'none', image?: string, duration?: 1500, mask?: false, success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+    function showToast(object: { title: string, icon?: 'success' | 'loading' | 'none', image?: string, duration?: 1500, mask?: boolean, success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
 
     /**
      * 显示模态对话框
@@ -654,8 +654,8 @@ declare namespace wx {
         data?: string | {} | ArrayBuffer,
         header?: {},
         method?: 'OPTIONS' | 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'TRACE' | 'CONNECT',
-        dataType?: 'json',
-        responseType: 'text',
+        dataType?: 'json' | string,
+        responseType: 'text' | 'arraybuffer',
         success?: (res?: {
             data: string | {} | ArrayBuffer,
             statusCode: number,
@@ -794,12 +794,12 @@ declare namespace wx {
      * 更新转发属性
      * 
      */
-    function updateShareMenu(object: { withShareTicket?: false, isUpdatableMessage?: false, activityId?: string, templateInfo?: { parameterList: Array<{ name: string, value: string }> }, success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+    function updateShareMenu(object: { withShareTicket?: boolean, isUpdatableMessage?: boolean, activityId?: string, templateInfo?: { parameterList: Array<{ name: string, value: string }> }, success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
 
     /**
      * 显示当前页面的转发按钮
      */
-    function showShareMenu(object: { withShareTicket?: false, success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
+    function showShareMenu(object: { withShareTicket?: boolean, success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
 
     /**
      * 隐藏转发按钮
