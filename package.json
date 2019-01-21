@@ -1,6 +1,6 @@
 {
   "name": "@types/wxminigame",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "微信小游戏dts声明文件",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
