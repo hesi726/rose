@@ -1,0 +1,24 @@
+{
+  "name": "@types/wxminigame",
+  "version": "1.0.1",
+  "description": "微信小游戏dts声明文件",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peony-ma/wxOpenDataContext.git"
+  },
+  "author": "peonyma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/peony-ma/wxOpenDataContext/issues"
+  },
+  "Keywords": [
+    "微信小游戏dts",
+    "微信小游戏.d.ts",
+    "微信小游戏",
+    "微信小游戏声明文件"
+  ],
+  "homepage": "https://github.com/peony-ma/wxOpenDataContext#readme"
+}
