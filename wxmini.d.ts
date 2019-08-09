@@ -1554,9 +1554,9 @@ declare namespace wx {
 
     /** 创建用户信息按钮*/
     function createUserInfoButton(object: {
-        type: string,
-        text: string,
-        image: string,
+        type: "text" | "image",
+        text?: string,
+        image?: string,
         style: {
             left: number,
             top: number,
@@ -1566,12 +1566,12 @@ declare namespace wx {
             borderColor: string,
             borderWidth: number,
             borderRadius: number,
-            textAlign: string,
+            textAlign: "left" | "center" | "right",
             fontSize: number,
             lineHeight: number
         },
         withCredentials: boolean,
-        lang: string
+        lang?: "en" | "zh_CN" | "zh_TW"
     }): UserInfoButton;
 
     /**
