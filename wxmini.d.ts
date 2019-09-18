@@ -826,7 +826,7 @@ declare namespace wx {
     /**
      * 主动拉起转发，进入选择通讯录界面。
      */
-    function shareAppMessage(object: { title?: string, imageUrl?: string, query?: string }): void;
+    function shareAppMessage(object: { title?: string, imageUrl?: string, query?: string, imageUrlId?: string }): void;
 
     /**
      * 取消监听用户点击右上角菜单的“转发”按钮时触发的事件
