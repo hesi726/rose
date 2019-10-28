@@ -1,10 +1,13 @@
 ## 微信小游戏dts、微信小游戏.d.ts、微信小游戏、egret、WeChat MiniGame dts file
  
 ### 微信小游戏 dts 文件
- * [文件路径](./wxmini.d.ts)
+ * [文件路径](./library/wxmini/bin/wxmini.d.ts)
 
 ### 使用说明
- * egret 项目 复制 `wxmini.d.ts` 文件到 `libs` 目录下即可
+ * egret 项目 
+  * 方案 1：复制 `wxmini.d.ts` 文件到 `libs` 目录下即可
+  * 方案 2：按照 demo 示例项目
+
  * layabox 项目
 
 ### 注意事项
