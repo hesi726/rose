@@ -5,8 +5,8 @@
 
 ### 使用说明
  * egret 项目 
-  * 方案 1：复制 `wxmini.d.ts` 文件到 `libs` 目录下即可
-  * 方案 2：按照 demo 示例项目
+   * 方案 1：复制 `wxmini.d.ts` 文件到 `libs` 目录下即可
+   * 方案 2：按照 demo 示例项目
 
  * layabox 项目
 
