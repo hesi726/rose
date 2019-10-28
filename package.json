@@ -15,10 +15,14 @@
     "url": "https://github.com/peony-ma/wxOpenDataContext/issues"
   },
   "Keywords": [
+    "Egret",
+    "game",
+    "framework",
+    "WeChat MiniGame dts"
+    "微信小游戏",
     "微信小游戏dts",
     "微信小游戏.d.ts",
-    "微信小游戏",
-    "微信小游戏声明文件"
+    "微信小游戏声明文件",
   ],
   "homepage": "https://github.com/peony-ma/wxOpenDataContext#readme"
 }
