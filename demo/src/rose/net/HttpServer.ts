@@ -71,7 +71,7 @@ namespace net {
 
             request.once(egret.IOErrorEvent.IO_ERROR, (evt: egret.IOErrorEvent) => {
                 logger.error(route, ">>>", evt.type, evt.currentTarget);
-                this._onClose(evt);
+                this._handleRequestError(requestInfo, evt);
             }, this);
 
             request.send();
@@ -109,7 +109,7 @@ namespace net {
 
             request.once(egret.IOErrorEvent.IO_ERROR, (evt: egret.IOErrorEvent) => {
                 logger.error(route, ">>>", evt.type, evt.currentTarget);
-                this._onClose(evt);
+                this._handleRequestError(requestInfo, evt);
             }, this);
 
             request.send(args);
@@ -141,8 +141,18 @@ namespace net {
             delete this._waitingRequestMap[requestId]; //从等待中移除
         };
 
-        protected _onClose(evt: any): void {
+        /**
+         * 
+         * @param evt 
+         */
+        protected _handleRequestError(requestInfo: IHttpRequestInfo, errInfo: egret.IOErrorEvent): void {
 
+            const requestId = requestInfo.requestId;
+            const cb = requestInfo.cb;
+            const ctx = requestInfo.ctx;
+            cb.call(ctx, new Error(errInfo.type), null);
+
+            delete this._waitingRequestMap[requestId];
         };
 
         reset(): void {
