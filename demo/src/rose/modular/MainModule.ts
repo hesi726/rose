@@ -27,6 +27,8 @@ namespace rose {
 
         protected _initProp(): void {
             this.emitter = new EventEmitter();
+            this.once(egret.Event.ADDED_TO_STAGE, this.onEnterStage, this);
+            this.once(egret.Event.REMOVED_FROM_STAGE, this.onExitStage, this);
         }
 
         init(): void {
@@ -38,10 +40,18 @@ namespace rose {
             layerMgr.initializeGameLayer(this);
         };
 
+        onEnterStage(): void {
+
+        };
+
         close(): void {
             if (this.parent) {
                 this.parent.removeChild(this);
             }
+        };
+
+        onExitStage(): void {
+
         };
 
         destroy(): void {

@@ -4,6 +4,7 @@ namespace rose {
      */
     export class Proxy<T> implements IProxy<T> {
 
+        static RESET_DATA = 'reset_data';
         // static CHANGE_DATA = 'change_data';//由于性能问题去除监听所有数据变化
         static CHANGE_DATA_KEY = 'change_data_';
 
@@ -46,7 +47,7 @@ namespace rose {
             // this.emitter.emit(Proxy.CHANGE_DATA, this.data);
 
             if (Array.isArray(value)) {
-                this.emitter.emit(Proxy.CHANGE_DATA_KEY + key, (<Array<any>>value).concat());
+                this.emitter.emit(Proxy.CHANGE_DATA_KEY + key, value.slice());
                 return;
             }
 
@@ -88,6 +89,10 @@ namespace rose {
 
         unregisterAll(): void {
             this.emitter.removeAllListeners();
+        };
+
+        destroy(): void {
+            this.unregisterAll();
         };
     }
 }

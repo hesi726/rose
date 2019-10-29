@@ -29,7 +29,7 @@
 		"bin-debug/rose/event/InputEventChannel.js",
 		"bin-debug/rose/event/NetEventChannel.js",
 		"bin-debug/rose/event/TimerEventChannel.js",
-		"bin-debug/LoadingUI.js",
+		"bin-debug/rose/utils/TimedTask.js",
 		"bin-debug/rose/gui/LayerManager.js",
 		"bin-debug/ThemeAdapter.js",
 		"bin-debug/rose/modular/ModuleBase.js",
@@ -46,6 +46,6 @@
 		"bin-debug/rose/utils/logger.js",
 		"bin-debug/rose/utils/MovieClipUtils.js",
 		"bin-debug/rose/utils/MyUtil.js",
-		"bin-debug/rose/utils/TimedTask.js"
+		"bin-debug/LoadingUI.js"
 	]
 }

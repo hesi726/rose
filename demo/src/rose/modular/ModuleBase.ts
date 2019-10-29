@@ -32,6 +32,17 @@ namespace rose {
         show(): void;
 
         /**
+         * 
+         * 进入舞台
+         */
+        onEnterStage(): void;
+
+        /**
+         * 退出舞台
+         */
+        onExitStage(): void;
+
+        /**
          * 关闭
          */
         close(): void;

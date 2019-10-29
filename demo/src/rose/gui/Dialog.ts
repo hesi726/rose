@@ -44,6 +44,9 @@ namespace rose {
 
             this.emitter = new EventEmitter();
 
+            this.once(egret.Event.ADDED_TO_STAGE, this.onEnterStage, this);
+            this.once(egret.Event.REMOVED_FROM_STAGE, this.onExitStage, this);
+
             // this.popupEffect = ;
             // this.closeEffect = ;
         }
@@ -52,9 +55,13 @@ namespace rose {
 
         };
 
-        public show(showEffect: boolean = true): void {
+        show(showEffect: boolean = true): void {
             this._showing(showEffect);
         }
+
+        onEnterStage(): void {
+
+        };
 
         private _showing(showEffect: boolean): void {
 
@@ -106,7 +113,7 @@ namespace rose {
 
         };
 
-        public hide(): void {
+        hide(): void {
             this.close(false);
         }
 
@@ -114,7 +121,7 @@ namespace rose {
 		 * 关闭
 		 * @param showEffect 是否显示关闭效果
 		 */
-        public close(showEffect: boolean = true): void {
+        close(showEffect: boolean = true): void {
             if (showEffect && this.closeEffect) {
                 this.closeEffect.run();
             }
@@ -124,7 +131,11 @@ namespace rose {
             this.emitter.emit('onClose', this.id);
         }
 
-        public destroy(): void {
+        onExitStage(): void {
+
+        };
+
+        destroy(): void {
             this.emitter.emit('onDestroy', this.id);
         };
 
@@ -147,14 +158,14 @@ namespace rose {
 		/**
 		 * Brings a Dialog to the top.
 		 */
-        public bringToTop(): void {
+        bringToTop(): void {
 
         };
 
 		/**
 		 * Sends a Dialog to the back.
 		 */
-        public sendToBack(): void {
+        sendToBack(): void {
 
         };
     }
