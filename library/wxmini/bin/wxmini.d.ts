@@ -59,6 +59,12 @@ declare function setInterval(callback: () => void, delay: number, ...rest): numb
  */
 declare namespace wx {
 
+    type ENV = {
+        USER_DATA_PATH: string;
+    }
+
+    var env: ENV;
+
     type systemInfo = {
         /** 手机品牌*/
         brand: string;
