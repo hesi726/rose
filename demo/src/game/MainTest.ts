@@ -27,6 +27,8 @@ class MainTest extends rose.MainModule {
         colorLabel.y = 80;
         this.addChild(colorLabel);
 
+        subTestData.init();
+
         setTimeout(() => {
             rose.ModuleMgr.start('SubTest').then(() => {
                 console.log('子模块加载完成 SubTest');

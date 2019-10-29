@@ -22,6 +22,10 @@ class SubTest2 extends rose.SubModule {
         colorLabel.x = 172;
         colorLabel.y = 180;
         this.addChild(colorLabel);
+
+        subTestData.registerByKey<keyof SubTestDataVo>("age", (a: number) => {
+            colorLabel.text = `数据变化为${a}`;
+        }, this);
     }
 }
 

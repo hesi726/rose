@@ -24,10 +24,12 @@ class SubTest extends rose.SubModule {
         this.addChild(colorLabel);
 
         setTimeout(() => {
-            rose.ModuleMgr.start('MainTest2').then(() => {
-                console.log('获取完成');
-                console.log(rose.ModuleMgr.getAllModule());
-            });
+            // rose.ModuleMgr.start('MainTest2').then(() => {
+            //     console.log('获取完成');
+            //     console.log(rose.ModuleMgr.getAllModule());
+            // });
+
+            subTestData.setValueAndNotify('age',20);
         }, 5 * 1000);
     }
 
