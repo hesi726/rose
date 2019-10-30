@@ -29,8 +29,22 @@ class SubTest extends rose.SubModule {
             //     console.log(rose.ModuleMgr.getAllModule());
             // });
 
-            subTestData.setValueAndNotify('age',20);
+            subTestData.setValueAndNotify('age', 20);
         }, 5 * 1000);
+    }
+
+    onEnterStage(): void {
+        wx.getSystemInfo({
+            success: function (res?: wx.systemInfo): void {
+                console.log("微信小游戏手机信息",res.brand);
+            },
+            fail: function (err) {
+                console.log(err)
+            },
+            complete: function (res) {
+                console.log(res)
+            }
+        })
     }
 
     _afterAnalysisSkin(): void {
