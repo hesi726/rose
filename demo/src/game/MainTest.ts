@@ -33,6 +33,10 @@ class MainTest extends rose.MainModule {
             rose.ModuleMgr.start('SubTest').then(() => {
                 console.log('子模块加载完成 SubTest');
                 console.log(rose.ModuleMgr.getAllModule());
+
+                subTestData.setValueAndNotify("skillBook", <any>{
+                    bai: 100
+                });
             });
 
             rose.ModuleMgr.start('SubTest2').then(() => {

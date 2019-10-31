@@ -2,9 +2,15 @@ class SubTestDataVo {
     age: number
     name: string
     city: string
+    skillBook: {
+        bai: 90
+    }
 }
 
 class SubTestData extends rose.Proxy<SubTestDataVo>{
+
+    public myAge: number;
+
     init(): void {
         super.init();
         const d = new SubTestDataVo();

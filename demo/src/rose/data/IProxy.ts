@@ -18,9 +18,9 @@ namespace rose {
 
         unregister(selector: (data?: T) => void, ctx: any): void;
 
-        registerByKey<K extends keyof T>(key: K | string, selector: (value?: T[K]) => void, ctx: any): void;
+        registerByKey<K extends keyof T>(key: K, selector: (value?: T[K]) => void, ctx: any): void;
 
-        unregisterByKey<K extends keyof T>(key: K | string, selector: (value?: T[K]) => void, ctx: any): void;
+        unregisterByKey<K extends keyof T>(key: K, selector: (value?: T[K]) => void, ctx: any): void;
 
         unregisterAll(): void;
     }

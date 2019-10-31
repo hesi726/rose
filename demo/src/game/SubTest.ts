@@ -23,6 +23,10 @@ class SubTest extends rose.SubModule {
         colorLabel.y = 100;
         this.addChild(colorLabel);
 
+        subTestData.registerByKey("skillBook", (obj) => {
+            console.log("数据输出", obj);
+        }, this);
+
         setTimeout(() => {
             // rose.ModuleMgr.start('MainTest2').then(() => {
             //     console.log('获取完成');
@@ -34,9 +38,11 @@ class SubTest extends rose.SubModule {
     }
 
     onEnterStage(): void {
+        if (typeof wx === 'undefined') return;
+
         wx.getSystemInfo({
             success: function (res?: wx.systemInfo): void {
-                console.log("微信小游戏手机信息",res.brand);
+                console.log("微信小游戏手机信息", res.brand);
             },
             fail: function (err) {
                 console.log(err)

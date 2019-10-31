@@ -11,12 +11,10 @@ namespace rose {
         static CHANGE_DATA = 'change_data';
         static CHANGE_DATA_KEY = 'change_data_';
 
+        autoNotify: boolean; //自动通知
         autoNotifyAll: boolean;
-        isInit: boolean;
 
-        private _autoNotify: boolean; //自动通知
-        get autoNotify() { return this._autoNotify };
-        set autoNotify(isAuto: boolean) { this._autoNotify = isAuto };
+        isInit: boolean;
 
         protected data: T;
         protected emitter: EventEmitter;
@@ -30,7 +28,7 @@ namespace rose {
          * @override
          */
         protected _initProp(): void {
-            this._autoNotify = true;
+            this.autoNotify = true;
             this.autoNotifyAll = false;
             this.emitter = new EventEmitter();
         }
@@ -40,7 +38,7 @@ namespace rose {
         }
 
         isAutoNotify(): boolean {
-            return this._autoNotify;
+            return this.autoNotify;
         }
 
         setData(data: T): IProxy<T> {
@@ -61,7 +59,7 @@ namespace rose {
 
             this.data[key] = value;
 
-            if (!this._autoNotify) {
+            if (!this.autoNotify) {
                 return;
             }
 
@@ -82,18 +80,17 @@ namespace rose {
             }
         };
 
-        notifyEvent(eventName: string, args?: any): void {
+        notifyEvent(eventName: string, ...args): void {
 
-            if (!this._autoNotify) {
+            if (!this.autoNotify) {
                 return;
             }
 
-            if (args) {
-                this.emitter.emit(eventName, args);
-                return;
+            if (arguments.length === 1) {
+                this.emitter.emit(eventName);
+            } else {
+                this.emitter.emit(eventName, ...args);
             }
-
-            this.emitter.emit(eventName);
         }
 
         getValue<K extends keyof T>(key: K): T[K] {
@@ -115,11 +112,11 @@ namespace rose {
             this.emitter.off(Proxy.CHANGE_DATA, selector, ctx, false);
         };
 
-        registerByKey<K extends keyof T>(key: K | string, selector: (value?: T[K]) => void, ctx: any): void {
+        registerByKey<K extends keyof T>(key: K, selector: (value?: T[K]) => void, ctx: any): void {
             this.emitter.on(Proxy.CHANGE_DATA_KEY + key, selector, ctx);
         };
 
-        unregisterByKey<K extends keyof T>(key: K | string, selector: (value?: T[K]) => void, ctx: any): void {
+        unregisterByKey<K extends keyof T>(key: K, selector: (value?: T[K]) => void, ctx: any): void {
             this.emitter.off(Proxy.CHANGE_DATA_KEY + key, selector, ctx, false);
         };
 

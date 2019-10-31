@@ -18,9 +18,8 @@ namespace rose {
         private _topLayer: eui.UILayer;
 
         /** 初始化*/
-        initializeInfoLayer(): void {
-            this._infoLayer_ = new eui.UILayer();
-            this._infoLayer_.touchEnabled = false;
+        initializeInfoLayer(layer: eui.UILayer): void {
+            this._infoLayer_ = layer;
             this._infoLayer_.name = 'infoLayer_';
             this._gameStage.addChild(this._infoLayer_);
 
