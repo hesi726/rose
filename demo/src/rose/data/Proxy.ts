@@ -100,7 +100,6 @@ namespace rose {
 
         getAll() {
             const results = {};
-
             return results;
         };
 
