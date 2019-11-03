@@ -1,16 +1,15 @@
 /**
- * 显示对象类工具
+ * 显示对象工具
  * @author Created by pony on 2019/01/01.
  */
 namespace DisplayUtil {
 
-
     /** 删除显示对象、显示对象必须有父级容器*/
     export function removeFromParent(disObj: egret.DisplayObject): void {
-        disObj && disObj.parent && disObj.parent.removeChild(disObj);
+        disObj.parent && disObj.parent.removeChild(disObj);
     }
 
-    export function removeAllChildren(disContainer: egret.DisplayObjectContainer): void {
+    export function removeAllChildrenFromScratch(disContainer: egret.DisplayObjectContainer): void {
         while (disContainer.numChildren > 0) {
             disContainer.removeChildAt(0);
         }
@@ -29,9 +28,7 @@ namespace DisplayUtil {
         return rt;
     }
 
-    /**
-     * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
-     */
+    /** 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。*/
     export function createBitmapByName(name: string): egret.Bitmap {
         const result = new egret.Bitmap();
         const texture: egret.Texture = RES.getRes(name);

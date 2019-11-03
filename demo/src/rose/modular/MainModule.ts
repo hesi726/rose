@@ -2,7 +2,7 @@ namespace rose {
 
     /**
      * 
-     * 子模块
+     * 主模块
      */
     export class MainModule extends eui.UILayer implements IModuleBase {
 
@@ -45,9 +45,7 @@ namespace rose {
         };
 
         close(): void {
-            if (this.parent) {
-                this.parent.removeChild(this);
-            }
+            DisplayUtil.removeFromParent(this);
         };
 
         onExitStage(): void {

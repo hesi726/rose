@@ -11,13 +11,13 @@ namespace rose {
         id: string;
 
         /** 打开特效*/
-        public popupEffect: utils.Handler;
+        public popupEffect: IDialogEffect;
 
         /** 关闭特效*/
-        public closeEffect: utils.Handler;
+        public closeEffect: IDialogEffect;
 
         /** 关闭后执行*/
-        public closeHandler: utils.Handler;
+        public closeHandler: () => void;
 
         /** 是否居中弹*/
         public popupCenter = true;
@@ -27,9 +27,7 @@ namespace rose {
 
         public emitter: EventEmitter;
 
-        /**
-         * 容器
-         */
+        /** 容器*/
         public _container: egret.DisplayObjectContainer;
 
         /** 容器标识*/
@@ -46,16 +44,13 @@ namespace rose {
 
             this.once(egret.Event.ADDED_TO_STAGE, this.onEnterStage, this);
             this.once(egret.Event.REMOVED_FROM_STAGE, this.onExitStage, this);
-
-            // this.popupEffect = ;
-            // this.closeEffect = ;
         }
 
         init(): void {
 
         };
 
-        show(showEffect: boolean = true): void {
+        show(showEffect: boolean = false): void {
             this._showing(showEffect);
         }
 
@@ -74,12 +69,10 @@ namespace rose {
                 this._container.addChild(this);
 
                 if (showEffect && this.popupEffect) {
-                    this.popupEffect.runWith(this);
+                    this.popupEffect(this, () => { this._onOpened() });
                 } else {
                     this._onOpened();
                 }
-
-                this._addEvent();
             }
 
             this.once(egret.Event.COMPLETE, complete, this);
@@ -103,6 +96,7 @@ namespace rose {
 		 * 打开完成后，调用此方法（如果有弹出动画，则在动画完成后执行）
 		 */
         protected _onOpened(): void {
+            this._addEvent();
 
         }
 
@@ -113,22 +107,25 @@ namespace rose {
 
         };
 
-        hide(): void {
-            this.close(false);
-        }
-
-		/**
+        /**
 		 * 关闭
 		 * @param showEffect 是否显示关闭效果
 		 */
-        close(showEffect: boolean = true): void {
-            if (showEffect && this.closeEffect) {
-                this.closeEffect.run();
+        close(showEffect: boolean = false): void {
+
+            const complete = () => {
+                this._removeEvent();
+                DisplayUtil.removeFromParent(this);
+                this.closeHandler && this.closeHandler();
+                this._onClosed();
+                this.emitter.emit('onClose', this.id);
             }
-            this._removeEvent();
-            this.closeHandler && this.closeHandler.run();
-            this._onClosed();
-            this.emitter.emit('onClose', this.id);
+
+            if (showEffect && this.closeEffect) {
+                this.closeEffect(this, complete);
+            } else {
+                complete();
+            }
         }
 
         onExitStage(): void {
@@ -140,8 +137,8 @@ namespace rose {
         };
 
 		/**
-		 * 关闭完成后，调用此方法(回收、移除事件等方法). <br/>
-		 *（如果有关闭动画，则在动画完成后执行，如有 closeHandler 方法调用 closeHandler 后）
+		 * 关闭完成后
+		 * 如果有关闭动画，则在动画完成后执行，如有 closeHandler 方法调用 closeHandler 后
 		 */
         protected _onClosed(): void {
 
