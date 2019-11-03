@@ -796,6 +796,35 @@ declare namespace wx {
      */
     function sendSocketMessage(object: { data: string | ArrayBuffer, success?: (res?: any) => void, fail?: (res?: any) => void, complete?: (res?: any) => void }): void;
 
+    /** 创建一个 UDP Socket 实例。使用前请注意阅读相关说明*/
+    function createUDPSocket(): UDPSocket;
+
+    /** 一个 UDP Socket 实例，默认使用 IPv4 协议*/
+    interface UDPSocket {
+        /** 绑定一个系统随机分配的可用端口，或绑定一个指定的端口号*/
+        bind(port: number): number;
+        /** 关闭 UDP Socket 实例，相当于销毁。 在关闭之后，UDP Socket 实例不能再发送消息，每次调用 UDPSocket.send 将会触发错误事件，并且 message 事件回调函数也不会再也执行。在 UDPSocket 实例被创建后将被 Native 强引用，保证其不被 GC。在 UDPSocket.close 后将解除对其的强引用，让 UDPSocket 实例遵从 GC。*/
+        close(): void;
+        /** 取消监听关闭事件*/
+        offClose(callback: () => void): void;
+        /** 取消监听错误事件*/
+        offError(callback: () => void): void;
+        /** 取消监听开始监听数据包消息的事件*/
+        offListening(callback: () => void): void;
+        /** 取消监听收到消息的事件*/
+        offMessage(callback: () => void): void;
+        /** 监听关闭事件*/
+        onClose(callback: () => void): void;
+        /** 监听错误事件*/
+        onError(callback: () => void): void;
+        /** 监听开始监听数据包消息的事件*/
+        onListening(callback: () => void): void;
+        /** 监听收到消息的事件*/
+        onMessage(callback: () => void): void;
+        /** 向指定的 IP 和 port 发送消息*/
+        send(obj: { address: string, port: number, message: string | ArrayBuffer, offset?: number, length?: number }): void;
+    }
+
     /** 
      * 更新转发属性
      * 
