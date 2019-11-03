@@ -1,16 +1,24 @@
 namespace utils {
-    
+
     /**
-    * 解析 URL 中参数。
-    * 要获取的 key 中不允许有 '=',value 中可以正常解析。如果没有 value 默认为 “0”。<br/>
-    * @return {{ [index: string]: string }} 包含URL参数的键值对对象。
-    * @author Created by pony on 2019/01/01.
-    */
-    export const getUrlParams = () => {
+     * 获取对象类名
+     * 注意只使用 egret 类型
+     */
+    export function getClassName(target: egret.HashObject): string {
+        return target['__proto__']['__class__'];
+    }
+
+    /**
+     * 解析 URL 中参数。
+     * 要获取的 key 中不允许有 '=',value 中可以正常解析。如果没有 value 默认为 “0”。<br/>
+     * @return {{ [index: string]: string }} 包含URL参数的键值对对象。
+     * @author Created by pony on 2019/01/01.
+     */
+    export const getUrlParams = (urlStr?: string) => {
 
         const params: { [index: string]: string } = {};
 
-        const url = window.location.href;
+        const url = urlStr || window.location.href;
         const idx = url.indexOf('?');
 
         if (idx === -1) {
