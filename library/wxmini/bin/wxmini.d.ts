@@ -2074,10 +2074,62 @@ declare namespace wx {
     }
 
     /**
-    * 创建一个 Worker 线程，目前限制最多只能创建一个 Worker，创建下一个 Worker 前请调用 Worker.terminate
-    */
+     * 创建一个 Worker 线程，目前限制最多只能创建一个 Worker，创建下一个 Worker 前请调用 Worker.terminate
+     */
     function createWorker(scriptPath: string): Worker;
+
+    /**
+     * 云开发小程序端
+     */
+    namespace cloud {
+
+        /** */
+        type cloudEnvType = {
+            env: string
+        }
+
+        /** */
+        type cloudCallFailType = (err: { errCode: string, errMsg: string }) => void;
+
+        /** */
+        type cloudEmptyFunction = () => void;
+
+        /** 在调用云开发各 API 前，需先调用初始化方法 init 一次（全局只需一次，多次调用时只有第一次生效）*/
+        function init(options?: { env?: string | { database?: string, storage?: string, functions?: string }, traceUser?: false }): void;
+
+        /** 调用云函数*/
+        function callFunction(obj: { name: string, data?: Object, config?: cloudEnvType, success: (res: { errMsg: string, result: string, requestID: string }) => void, fail?: cloudCallFailType, complete?: cloudEmptyFunction }): void;
+        function callFunction(obj: { name: string, data?: Object, config?: cloudEnvType, success?: (res: { errMsg: string, result: string, requestID: string }) => void, fail: cloudCallFailType, complete?: cloudEmptyFunction }): void;
+        function callFunction(obj: { name: string, data?: Object, config?: cloudEnvType, success?: (res: { errMsg: string, result: string, requestID: string }) => void, fail?: cloudCallFailType, complete: cloudEmptyFunction }): void;
+        function callFunction(obj: { name: string, data?: Object, config?: cloudEnvType }): Promise<{ errMsg: string, result: string, requestID: string }>;
+
+        /** 将本地资源上传至云存储空间，如果上传至同一路径则是覆盖写*/
+        function uploadFile(obj: { cloudPath: string, filePath: string, header?: Object, config?: cloudEnvType, success: (res: { fileID: string, statusCode: number, errMsg: string }) => void, fail?: cloudCallFailType, complete?: cloudEmptyFunction }): void;
+        function uploadFile(obj: { cloudPath: string, filePath: string, header?: Object, config?: cloudEnvType, success?: (res: { fileID: string, statusCode: number, errMsg: string }) => void, fail: cloudCallFailType, complete?: cloudEmptyFunction }): void;
+        function uploadFile(obj: { cloudPath: string, filePath: string, header?: Object, config?: cloudEnvType, success?: (res: { fileID: string, statusCode: number, errMsg: string }) => void, fail?: cloudCallFailType, complete: cloudEmptyFunction }): void;
+        function uploadFile(obj: { cloudPath: string, filePath: string, header?: Object, config?: cloudEnvType }): Promise<{ fileID: string, statusCode: number, errMsg: string }>;
+
+        /** 从云存储空间下载文件*/
+        function downloadFile(obj: { fileID: string, config?: cloudEnvType, success: (res: { tempFilePath: string, statusCode: number, errMsg: string }) => void, fail?: cloudCallFailType, complete?: cloudEmptyFunction }): void;
+        function downloadFile(obj: { fileID: string, config?: cloudEnvType, success?: (res: { tempFilePath: string, statusCode: number, errMsg: string }) => void, fail: cloudCallFailType, complete?: cloudEmptyFunction }): void;
+        function downloadFile(obj: { fileID: string, config?: cloudEnvType, success?: (res: { tempFilePath: string, statusCode: number, errMsg: string }) => void, fail?: cloudCallFailType, complete: cloudEmptyFunction }): void;
+        function downloadFile(obj: { cloudPath: string, filePath: string, header?: Object, config?: cloudEnvType }): Promise<{ tempFilePath: string, statusCode: number, errMsg: string }>;
+
+        /** 用云文件 ID 换取真实链接，可自定义有效期，默认一天且最大不超过一天。一次最多取 50 个。*/
+        function getTempFileURL(obj: { fileList: string[], config?: cloudEnvType, success: (fileList: Array<{ fileID: string, tempFileURL: string, status: number, errMsg: string }>) => void, fail?: cloudCallFailType, complete?: cloudEmptyFunction }): void;
+        function getTempFileURL(obj: { fileList: string[], config?: cloudEnvType, success?: (fileList: Array<{ fileID: string, tempFileURL: string, status: number, errMsg: string }>) => void, fail: cloudCallFailType, complete?: cloudEmptyFunction }): void;
+        function getTempFileURL(obj: { fileList: string[], config?: cloudEnvType, success?: (fileList: Array<{ fileID: string, tempFileURL: string, status: number, errMsg: string }>) => void, fail?: cloudCallFailType, complete: cloudEmptyFunction }): void;
+        function getTempFileURL(obj: { fileList: string[], config?: cloudEnvType }): Promise<Array<{ fileID: string, tempFileURL: string, status: number, errMsg: string }>>;
+
+        /** 从云存储空间删除文件，一次最多 50 个*/
+        function deleteFile(obj: { fileList: string[], config?: cloudEnvType, success: (fileList: Array<{ fileID: string, status: number, errMsg: string }>) => void, fail?: cloudCallFailType, complete?: cloudEmptyFunction }): void;
+        function deleteFile(obj: { fileList: string[], config?: cloudEnvType, success?: (fileList: Array<{ fileID: string, status: number, errMsg: string }>) => void, fail: cloudCallFailType, complete?: cloudEmptyFunction }): void;
+        function deleteFile(obj: { fileList: string[], config?: cloudEnvType, success?: (fileList: Array<{ fileID: string, status: number, errMsg: string }>) => void, fail?: cloudCallFailType, complete: cloudEmptyFunction }): void;
+        function deleteFile(obj: { fileList: string[], config?: cloudEnvType }): Promise<Array<{ fileID: string, status: number, errMsg: string }>>;
+
+    }
 }
+
 
 // /**
 //  * 基础库 2.0.0 开始支持，低版本需做兼容处理。

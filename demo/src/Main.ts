@@ -30,6 +30,13 @@ class Main extends eui.UILayer {
         await RES.loadGroup("preload", 0);
 
         this.createGameScene();
+
+        wx.cloud.callFunction({
+            name:"jj",
+            data: {},
+            // success: function(){},
+            // fail: function(){}
+        })
     }
 
     private loadTheme() {

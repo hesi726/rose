@@ -64,6 +64,13 @@
 
 ### 待解决问题：
  * 资源管理
+ * dialog 关闭自动移除
+ * dialog 优化特效、关闭回调函数
+ * 模块加入和移除舞台事件回调函数改成 protected
+ * 添加微信小游戏 dts 云函数
+ * 添加微信小游戏 dts udp 协议处理
+ * 加入扩展功能 extend
+ * 扩展 extend http 请求处理
 
 ![](./logo.jpg)
 
