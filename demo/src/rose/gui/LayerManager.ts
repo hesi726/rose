@@ -20,7 +20,7 @@ namespace rose {
         /** 初始化*/
         initializeInfoLayer(layer: eui.UILayer): void {
             this._infoLayer_ = layer;
-            this._infoLayer_.name = 'infoLayer_';
+            this._infoLayer_.name = '_infoLayer_';
             this._gameStage.addChild(this._infoLayer_);
 
             this._msgLayer = new eui.UILayer();

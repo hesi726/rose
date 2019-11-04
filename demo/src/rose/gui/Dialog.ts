@@ -1,5 +1,15 @@
 namespace rose {
 
+    //创建一个满屏 mask 
+    const _createDialogMask = (isTouch = true, alpha = 0.4) => {
+        const dialogMask: egret.Sprite = new egret.Sprite();
+        dialogMask.graphics.beginFill(0, alpha);
+        dialogMask.graphics.drawRect(0, 0, rose.layerMgr.gameStage.stageWidth, rose.layerMgr.gameStage.stageHeight);
+        dialogMask.graphics.endFill();
+        dialogMask.touchEnabled = isTouch;
+        return dialogMask;
+    }
+
     /**
      * 基于 eui.Component 的 Dialog 
      * 
@@ -10,6 +20,29 @@ namespace rose {
 
         id: string;
 
+        /** 是否铺满*/
+        public isFull = false;
+
+        public isMask = true;
+        public isClickMaskClose = true;
+        public maskLayer: egret.Sprite;
+
+        /** 是否居中*/
+        public isPopupCenter = true;
+
+        /** 皮肤标识符，默认类名字加 Skin*/
+        public skinNameIdentify: any;
+
+        /** 容器标识*/
+        protected _containerName = 'dlg';
+
+        /** 容器*/
+        public _container: egret.DisplayObjectContainer;
+
+        public emitter: EventEmitter;
+
+        //是否播放特效
+        public isPlayEffect = false;
         /** 打开特效*/
         public popupEffect: IDialogEffect;
 
@@ -18,20 +51,6 @@ namespace rose {
 
         /** 关闭后执行*/
         public closeHandler: () => void;
-
-        /** 是否居中弹*/
-        public popupCenter = true;
-
-        /** 皮肤标识符，默认类名字加 Skin*/
-        public skinNameIdentify: any;
-
-        public emitter: EventEmitter;
-
-        /** 容器*/
-        public _container: egret.DisplayObjectContainer;
-
-        /** 容器标识*/
-        protected _containerName = 'dlg';
 
         constructor() {
             super();
@@ -50,25 +69,38 @@ namespace rose {
 
         };
 
-        show(showEffect: boolean = false): void {
-            this._showing(showEffect);
+        show(): void {
+            this._showing();
         }
 
         onEnterStage(): void {
 
         };
 
-        private _showing(showEffect: boolean): void {
+        private _showing(): void {
+
+            if (typeof this._container === 'undefined') {
+                this._container = layerMgr[this._containerName];
+            }
+
+            if (this.isFull) {
+                this._filledWith();
+            } else if (this.isMask) {
+                this.maskLayer = _createDialogMask(this.isClickMaskClose);
+                this._container.addChild(this.maskLayer);
+            }
+
+            if (!this.isFull && this.isPopupCenter) {
+                this.horizontalCenter = '0';
+                this.verticalCenter = '0';
+            }
 
             const complete = () => {
                 this._afterAnalysisSkin();
 
-                if (typeof this._container === 'undefined') {
-                    this._container = layerMgr[this._containerName];
-                }
                 this._container.addChild(this);
 
-                if (showEffect && this.popupEffect) {
+                if (this.isPlayEffect && this.popupEffect) {
                     this.popupEffect(this, () => { this._onOpened() });
                 } else {
                     this._onOpened();
@@ -78,11 +110,15 @@ namespace rose {
             this.once(egret.Event.COMPLETE, complete, this);
 
             if (typeof this.skinNameIdentify === 'undefined') {
-                const className = MyUtil.getClassName(this);
+                const className = CommonUtil.getClassName(this);
                 this.skinNameIdentify = className.slice(className.lastIndexOf('.') + 1) + 'Skin';
             }
 
             this.skinName = this.skinNameIdentify;
+        }
+
+        private _filledWith(): void {
+            this.top = this.bottom = this.left = this.right = 0;
         }
 
         /**
@@ -104,24 +140,22 @@ namespace rose {
          * 添加事件
          */
         protected _addEvent(): void {
-
+            if (this.isMask && this.isClickMaskClose) {
+                this.maskLayer.once(egret.TouchEvent.TOUCH_TAP, this.close, this);
+            }
         };
 
-        /**
-		 * 关闭
-		 * @param showEffect 是否显示关闭效果
-		 */
-        close(showEffect: boolean = false): void {
-
+        close(): void {
             const complete = () => {
                 this._removeEvent();
                 DisplayUtil.removeFromParent(this);
+                DisplayUtil.removeFromParent(this.maskLayer);
                 this.closeHandler && this.closeHandler();
                 this._onClosed();
                 this.emitter.emit('onClose', this.id);
             }
 
-            if (showEffect && this.closeEffect) {
+            if (this.isPlayEffect && this.closeEffect) {
                 this.closeEffect(this, complete);
             } else {
                 complete();
@@ -152,16 +186,10 @@ namespace rose {
 
         };
 
-		/**
-		 * Brings a Dialog to the top.
-		 */
         bringToTop(): void {
 
         };
 
-		/**
-		 * Sends a Dialog to the back.
-		 */
         sendToBack(): void {
 
         };

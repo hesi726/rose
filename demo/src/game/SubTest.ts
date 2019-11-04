@@ -2,39 +2,33 @@ class SubTest extends rose.SubModule {
 
     init(): void {
         console.log(`子模块${this.id}`);
+        this.isPlayEffect = true;
+        this.popupEffect = rose.dialogShowEaseBackOut;
+        this.closeEffect = rose.dialogCloseDefault;
     }
 
     show() {
         super.show();
-        let topMask = new egret.Shape();
-        topMask.graphics.beginFill(0xa090a0, 0.5);
-        topMask.graphics.drawRect(0, 400, 600, 172);
-        topMask.graphics.endFill();
-        topMask.y = 33;
-        this.addChild(topMask);
 
-        const colorLabel = new egret.TextField();
-        colorLabel.textColor = 0xffffff;
-        colorLabel.width = 600 - 172;
-        colorLabel.textAlign = "center";
-        colorLabel.text = `子模块${this.id}`;
-        colorLabel.size = 24;
-        colorLabel.x = 80;
-        colorLabel.y = 100;
-        this.addChild(colorLabel);
+        // subTestData.registerByKey("skillBook", (obj) => {
+        //     console.log("数据输出", obj);
+        // }, this);
 
-        subTestData.registerByKey("skillBook", (obj) => {
-            console.log("数据输出", obj);
-        }, this);
+        // let topMask = new eui.Rect();
+        // topMask.graphics.beginFill(0xa090a0, 1);
+        // topMask.graphics.drawRect(0, 0, 500, 500);
+        // topMask.graphics.endFill();
+        // this.addChild(topMask);
 
-        setTimeout(() => {
-            // rose.ModuleMgr.start('MainTest2').then(() => {
-            //     console.log('获取完成');
-            //     console.log(rose.ModuleMgr.getAllModule());
-            // });
-
-            subTestData.setValueAndNotify('age', 20);
-        }, 5 * 1000);
+        // const colorLabel = new egret.TextField();
+        // colorLabel.textColor = 0xffffff;
+        // colorLabel.width = 600 - 172;
+        // colorLabel.textAlign = "center";
+        // colorLabel.text = `子模块${this.id}`;
+        // colorLabel.size = 24;
+        // colorLabel.x = 80;
+        // colorLabel.y = 100;
+        // this.addChild(colorLabel);
     }
 
     onEnterStage(): void {

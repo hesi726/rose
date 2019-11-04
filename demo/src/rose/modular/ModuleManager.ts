@@ -139,21 +139,23 @@ namespace rose {
         private _destroyModule(mainModule: IModuleBase): void {
             if (typeof mainModule !== 'undefined') {
 
+                mainModule.close();
+                mainModule.destroy();
+
                 const subModule = this.modules;
 
                 for (let i = subModule.length - 1; i >= 0; i--) {
                     subModule[i].destroy();
                 }
 
-                mainModule.close();
-                mainModule.destroy();
-
                 this.modules = [];
             };
         }
 
         //关闭子模块时处理
-        private _onCloseHandle(moduleId): void {
+        private _onCloseHandle(moduleId: string): void {
+            console.log('关闭子模块',moduleId);
+
             const index = this._getModuleIndexById(moduleId);
 
             if (index > -1) {
@@ -163,7 +165,7 @@ namespace rose {
 
         }
 
-        private _getModuleIndexById(moduleId): number {
+        private _getModuleIndexById(moduleId: string): number {
 
             for (let i = 0, l = this.modules.length; i < l; i++) {
                 if (this.modules[i].id === moduleId) {

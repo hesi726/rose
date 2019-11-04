@@ -1,4 +1,4 @@
-namespace utils {
+namespace CommonUtil {
 
     /**
      * 获取对象类名

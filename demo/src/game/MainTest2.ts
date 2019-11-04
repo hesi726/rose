@@ -11,7 +11,7 @@ class MainTest2 extends rose.MainModule {
     show() {
         super.show();
         let topMask = new egret.Shape();
-        topMask.graphics.beginFill(0x0090a0, 0.5);
+        topMask.graphics.beginFill(0x0090a0, 1);
         topMask.graphics.drawRect(0, 500, 600, 172);
         topMask.graphics.endFill();
         topMask.y = 33;

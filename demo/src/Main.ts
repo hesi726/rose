@@ -30,13 +30,6 @@ class Main extends eui.UILayer {
         await RES.loadGroup("preload", 0);
 
         this.createGameScene();
-
-        wx.cloud.callFunction({
-            name:"jj",
-            data: {},
-            // success: function(){},
-            // fail: function(){}
-        })
     }
 
     private loadTheme() {
@@ -63,6 +56,8 @@ class Main extends eui.UILayer {
         let stageH = this.stage.stageHeight;
         sky.width = stageW;
         sky.height = stageH;
+
+        console.log(this.stage.stageWidth, this.stage.stageHeight);
 
         let topMask = new egret.Shape();
         topMask.graphics.beginFill(0x000000, 0.5);

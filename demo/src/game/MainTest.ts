@@ -11,10 +11,11 @@ class MainTest extends rose.MainModule {
     show() {
         super.show();
         const topMask = new egret.Shape();
-        topMask.graphics.beginFill(0x0090a0, 0.5);
-        topMask.graphics.drawRect(0, 200, 600, 172);
+        topMask.graphics.beginFill(0x0090a0, 1);
+        topMask.graphics.drawRect(0, 200, 100, 172);
         topMask.graphics.endFill();
         topMask.y = 33;
+        topMask.touchEnabled = true;
         this.addChild(topMask);
 
         const colorLabel = new egret.TextField();
@@ -25,18 +26,15 @@ class MainTest extends rose.MainModule {
         colorLabel.size = 24;
         colorLabel.x = 172;
         colorLabel.y = 80;
+        colorLabel.touchEnabled = true;
         this.addChild(colorLabel);
 
         subTestData.init();
 
-        setTimeout(() => {
+        colorLabel.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
             rose.ModuleMgr.start('SubTest').then(() => {
                 console.log('子模块加载完成 SubTest');
                 console.log(rose.ModuleMgr.getAllModule());
-
-                subTestData.setValueAndNotify("skillBook", <any>{
-                    bai: 100
-                });
             });
 
             rose.ModuleMgr.start('SubTest2').then(() => {
@@ -44,7 +42,24 @@ class MainTest extends rose.MainModule {
                 console.log(rose.ModuleMgr.getAllModule());
             });
 
-        }, 3 * 1000);
+        }, this);
+
+        // setTimeout(() => {
+        //     rose.ModuleMgr.start('SubTest').then(() => {
+        //         console.log('子模块加载完成 SubTest');
+        //         console.log(rose.ModuleMgr.getAllModule());
+
+        //         subTestData.setValueAndNotify("skillBook", <any>{
+        //             bai: 100
+        //         });
+        //     });
+
+        //     // rose.ModuleMgr.start('SubTest2').then(() => {
+        //     //     console.log('子模块加载完成 SubTest2');
+        //     //     console.log(rose.ModuleMgr.getAllModule());
+        //     // });
+
+        // }, 3 * 1000);
     }
 }
 

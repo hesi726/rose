@@ -10,14 +10,8 @@ namespace rose {
 
         isSubModule = false;
 
-        /**
-         * 事件
-         */
         emitter: EventEmitter;
 
-        /**
-         * 模块参数
-         */
         moduleParam: IModuleParam;
 
         constructor() {

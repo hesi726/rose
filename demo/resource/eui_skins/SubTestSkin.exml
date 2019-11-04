@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="SubTestSkin" width="400" height="400" xmlns:e="http://ns.egret.com/eui">
+	<e:Image source="border_png" left="0" right="0" top="0" bottom="0"/>
+</e:Skin>
