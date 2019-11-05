@@ -1,4 +1,4 @@
-class SubTestDataVo {
+class UserDataVo {
     age: number
     name: string
     city: string
@@ -7,13 +7,11 @@ class SubTestDataVo {
     }
 }
 
-class SubTestData extends rose.Proxy<SubTestDataVo>{
-
-    public myAge: number;
+class UserProxy extends rose.Proxy<UserDataVo>{
 
     init(): void {
         super.init();
-        const d = new SubTestDataVo();
+        const d = new UserDataVo();
         d.age = 1;
         d.city = 'beijing';
         d.name = 'pony';
@@ -21,4 +19,4 @@ class SubTestData extends rose.Proxy<SubTestDataVo>{
     }
 }
 
-const subTestData = new SubTestData();
+const userProxy = new UserProxy();

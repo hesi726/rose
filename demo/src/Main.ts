@@ -125,7 +125,10 @@ class Main extends eui.UILayer {
      * Click the button
      */
     private onButtonClick(e: egret.TouchEvent) {
-        rose.layerMgr.clearBag();
-        rose.ModuleMgr.start('MainTest');
+        rose.ModuleMgr.start(moduleId.home).then(() => {
+            rose.layerMgr.clearBag();
+        }).catch((err) => {
+            alert(err);
+        });
     }
 }
