@@ -2116,10 +2116,10 @@ declare namespace wx {
         function init(options?: { env?: string | { database?: string, storage?: string, functions?: string }, traceUser?: false }): void;
 
         /** 调用云函数*/
-        function callFunction(obj: { name: string, data?: Object, config?: cloudEnvType, success: (res: { errMsg: string, result: string, requestID: string }) => void, fail?: cloudCallFailType, complete?: cloudEmptyFunction }): void;
-        function callFunction(obj: { name: string, data?: Object, config?: cloudEnvType, success?: (res: { errMsg: string, result: string, requestID: string }) => void, fail: cloudCallFailType, complete?: cloudEmptyFunction }): void;
-        function callFunction(obj: { name: string, data?: Object, config?: cloudEnvType, success?: (res: { errMsg: string, result: string, requestID: string }) => void, fail?: cloudCallFailType, complete: cloudEmptyFunction }): void;
-        function callFunction(obj: { name: string, data?: Object, config?: cloudEnvType }): Promise<{ errMsg: string, result: string, requestID: string }>;
+        function callFunction(obj: { name: string, data?: Object, config?: cloudEnvType, success: (res: { errMsg: string, result: any, requestID: string }) => void, fail?: cloudCallFailType, complete?: cloudEmptyFunction }): void;
+        function callFunction(obj: { name: string, data?: Object, config?: cloudEnvType, success?: (res: { errMsg: string, result: any, requestID: string }) => void, fail: cloudCallFailType, complete?: cloudEmptyFunction }): void;
+        function callFunction(obj: { name: string, data?: Object, config?: cloudEnvType, success?: (res: { errMsg: string, result: any, requestID: string }) => void, fail?: cloudCallFailType, complete: cloudEmptyFunction }): void;
+        function callFunction(obj: { name: string, data?: Object, config?: cloudEnvType }): Promise<{ errMsg: string, result: any, requestID: string }>;
 
         /** 将本地资源上传至云存储空间，如果上传至同一路径则是覆盖写*/
         function uploadFile(obj: { cloudPath: string, filePath: string, header?: Object, config?: cloudEnvType, success: (res: { fileID: string, statusCode: number, errMsg: string }) => void, fail?: cloudCallFailType, complete?: cloudEmptyFunction }): void;
