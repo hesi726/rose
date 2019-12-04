@@ -1,8 +1,8 @@
 namespace rose {
 
     /**
-     * 
      * 数据代理，控制类
+     * @author Created by pony
      */
     export class Proxy<T> implements IProxy<T> {
 
@@ -14,44 +14,38 @@ namespace rose {
         autoNotify: boolean; //自动通知
         autoNotifyAll: boolean;
 
-        isInit: boolean;
+        hasData = false;
 
         protected data: T;
         protected emitter: EventEmitter;
 
         constructor() {
             this._initProp();
-        }
+        };
 
-        /**
-         * 
-         * @override
-         */
         protected _initProp(): void {
             this.autoNotify = true;
             this.autoNotifyAll = false;
             this.emitter = new EventEmitter();
-        }
+        };
 
-        init(): void {
-            this.isInit = true;
-        }
+        //初始化数据尽量在这里写
+        initialize(): void {
 
-        isAutoNotify(): boolean {
-            return this.autoNotify;
-        }
+        };
 
         setData(data: T): IProxy<T> {
             this.data = data;
+            this.hasData = true;
             return this;
-        }
+        };
 
         getData(): T {
             return this.data;
-        }
+        };
 
         /**
-         * 
+         * 设置指定并且通知
          * @param key 
          * @param value 
          */
@@ -59,39 +53,21 @@ namespace rose {
 
             this.data[key] = value;
 
-            if (!this.autoNotify) {
-                return;
-            }
-
-            let notifyData: any
-
-            if (Array.isArray(value)) {
-                notifyData = value.slice();
-            } else if (typeof value === 'object') {
-                notifyData = Object.assign({}, value);
-            } else {
-                notifyData = value;
-            }
-
-            this.notifyEvent(Proxy.CHANGE_DATA_KEY + key, notifyData);
+            this.notifyEvent(Proxy.CHANGE_DATA_KEY + key);
 
             if (this.autoNotifyAll) {
-                this.notifyEvent(Proxy.CHANGE_DATA, this.getData());
+                this.notifyEvent(Proxy.CHANGE_DATA);
             }
         };
 
-        notifyEvent(eventName: string, ...args): void {
+        notifyEvent(eventName: string): void {
 
             if (!this.autoNotify) {
                 return;
             }
 
-            if (arguments.length === 1) {
-                this.emitter.emit(eventName);
-            } else {
-                this.emitter.emit(eventName, ...args);
-            }
-        }
+            this.emitter.emit(eventName);
+        };
 
         getValue<K extends keyof T>(key: K): T[K] {
             //考虑引用类型问题，外部不可更改
@@ -103,19 +79,19 @@ namespace rose {
             return results;
         };
 
-        register(selector: (data?: T) => void, ctx: any): void {
+        register(selector: () => void, ctx: any): void {
             this.emitter.on(Proxy.CHANGE_DATA, selector, ctx);
         };
 
-        unregister(selector: (data?: T) => void, ctx: any): void {
+        unregister(selector: () => void, ctx: any): void {
             this.emitter.off(Proxy.CHANGE_DATA, selector, ctx, false);
         };
 
-        registerByKey<K extends keyof T>(key: K, selector: (value?: T[K]) => void, ctx: any): void {
+        registerByKey<K extends keyof T>(key: K, selector: () => void, ctx: any): void {
             this.emitter.on(Proxy.CHANGE_DATA_KEY + key, selector, ctx);
         };
 
-        unregisterByKey<K extends keyof T>(key: K, selector: (value?: T[K]) => void, ctx: any): void {
+        unregisterByKey<K extends keyof T>(key: K, selector: () => void, ctx: any): void {
             this.emitter.off(Proxy.CHANGE_DATA_KEY + key, selector, ctx, false);
         };
 

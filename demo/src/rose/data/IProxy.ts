@@ -4,7 +4,7 @@ namespace rose {
 	 */
     export interface IProxy<T> {
 
-        init(): void;
+        initialize(): void;
 
         setData(data: T): IProxy<T>;
 

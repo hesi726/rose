@@ -1,16 +1,6 @@
-class UserDataVo {
-    age: number
-    name: string
-    city: string
-    skillBook: {
-        bai: 90
-    }
-}
-
 class UserProxy extends rose.Proxy<UserDataVo>{
 
-    init(): void {
-        super.init();
+    initialize(): void {
         const d = new UserDataVo();
         d.age = 1;
         d.city = 'beijing';

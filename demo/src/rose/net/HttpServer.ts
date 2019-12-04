@@ -54,6 +54,8 @@ namespace net {
 
             let httpUrl = this._httpUrl + route + '?';
 
+            // httpUrl = Object.keys(args).reduce((prev, cur) => `${prev}&${cur}=${args[cur]}`, httpUrl);
+
             for (let key in args) {
                 httpUrl += key + '=' + args[key] + '&';
             }
