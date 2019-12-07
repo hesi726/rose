@@ -1597,15 +1597,16 @@ declare namespace wx {
             top: number,
             width: number,
             height: number,
-            backgroundColor: string,
-            borderColor: string,
-            borderWidth: number,
-            borderRadius: number,
-            textAlign: "left" | "center" | "right",
-            fontSize: number,
-            lineHeight: number
+            color?: string
+            backgroundColor?: string,
+            borderColor?: string,
+            borderWidth?: number,
+            borderRadius?: number,
+            textAlign?: "left" | "center" | "right",
+            fontSize?: number,
+            lineHeight?: number
         },
-        withCredentials: boolean,
+        withCredentials?: boolean,
         lang?: "en" | "zh_CN" | "zh_TW"
     }): UserInfoButton;
 
