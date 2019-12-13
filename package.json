@@ -7,22 +7,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/peony-ma/wxOpenDataContext.git"
+    "url": "git+https://github.com/pony13500815917/rose.git"
   },
   "author": "pony",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/peony-ma/wxOpenDataContext/issues"
+    "url": "https://github.com/pony13500815917/rose/issues"
   },
   "Keywords": [
     "Egret",
     "game",
     "framework",
-    "WeChat MiniGame dts"
+    "WeChat MiniGame dts",
     "微信小游戏",
     "微信小游戏dts",
     "微信小游戏.d.ts",
-    "微信小游戏声明文件",
+    "微信小游戏声明文件"
   ],
-  "homepage": "https://github.com/peony-ma/wxOpenDataContext#readme"
+  "homepage": "https://github.com/pony13500815917/rose#readme"
 }
