@@ -50,16 +50,8 @@ namespace net {
         protected _requestHttpGet(requestInfo: IHttpRequestInfo): void {
 
             const route = requestInfo.route;
-            const args = requestInfo.args;
 
-            let httpUrl = this._httpUrl + route + '?';
-
-            // httpUrl = Object.keys(args).reduce((prev, cur) => `${prev}&${cur}=${args[cur]}`, httpUrl);
-
-            for (let key in args) {
-                httpUrl += key + '=' + args[key] + '&';
-            }
-            httpUrl = httpUrl.substring(0, httpUrl.lastIndexOf('&'));
+            const httpUrl = `${this._httpUrl}${route}${CommonUtil.splicingQueryString(requestInfo.args)}`;
 
             const request = new egret.HttpRequest();
             request.responseType = egret.HttpResponseType.TEXT; //默认值
@@ -96,7 +88,7 @@ namespace net {
             const route = requestInfo.route;
             const args = requestInfo.args;
 
-            const httpUrl = this._httpUrl + route;
+            const httpUrl = `${this._httpUrl}${route}`;
 
             const request = new egret.HttpRequest();
             request.setRequestHeader("Content-Type", "application/json");

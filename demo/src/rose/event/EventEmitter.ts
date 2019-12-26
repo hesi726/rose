@@ -1,275 +1,147 @@
-// namespace rose {
+namespace rose {
 
-//     interface IEvents {
-//         [evt: string]: Array<EE>;
-//     }
+    export class EventEmitter {
 
-//     /**
-//      * 事件接口
-//      */
-//     export interface IEventEmitter {
+        private _events = Object.create(null);
 
-//         _events: IEvents;
+        private _eventsCount = 0;
 
-//         _eventsCount: number;
+        eventNames(): string[] {
 
-//         eventNames(): Array<string>;
+            if (this._eventsCount === 0) return [];
 
-//         listeners(evt: string): Array<Function>;
+            const events = this._events;
 
-//         listenerCount(evt: string): number;
+            // const names: Array<string> = Object.keys(events);
 
-//         emit(evt: string, ...args): boolean;
+            // names.concat(Object.getOwnPropertySymbols(events));
 
-//         on(event: string, fn: Function, context: any): IEventEmitter;
+            return Object.keys(events);
+            // return names;
 
-//         once(event: string, fn: Function, context: any): IEventEmitter;
+        };
 
-//         removeListener(evt: string, fn: Function, context: any, once: boolean): IEventEmitter;
+        listeners(event: string) {
 
-//         removeAllListeners(event?: string): IEventEmitter;
+            const handlers = this._events[event];
 
-//         off(evt: string, fn: Function, context: any, once: boolean): IEventEmitter;
+            if (!handlers) return [];
 
-//         addListener(event: string, fn: Function, context: any): IEventEmitter;
-//     }
+            const ee = [];
 
-//     class EE {
-//         public fn: Function;
-//         public context: any;
-//         public once: boolean;
+            for (let i = 0, l = handlers.length; i < l; i++) {
+                ee[i] = handlers[i].fn;
+            }
 
-//         constructor(fn: Function, context: any, once: boolean) {
-//             this.fn = fn;
-//             this.context = context;
-//             this.once = once;
-//         }
-//     }
+            return ee;
+        };
 
-//     /**
-//      * Add a listener for a given event.
-//      * @private
-//      */
-//     function addListener(emitter: IEventEmitter, evt: string, fn: Function, context: any = null, once = false): IEventEmitter {
+        listenerCount(event: string): number {
+            const listeners = this._events[event];
 
-//         const listener = new EE(fn, context || emitter, once);
+            if (!listeners) return 0;
+            return listeners.length;
+        };
 
-//         if (!Array.isArray(emitter._events[evt])) {
-//             emitter._events[evt] = [];
-//             emitter._eventsCount++;
-//         }
+        emit(event: string, a1?: any, a2?: any, a3?: any, a4?: any, a5?: any): boolean {
 
-//         emitter._events[evt].push(listener);
+            const listeners = this._events[event];
 
-//         return emitter;
-//     }
+            if (!listeners) return false;
 
-//     /**
-//      * Clear event by name.
-//      *
-//      * @param {EventEmitter} emitter Reference to the `EventEmitter` instance.
-//      * @param {(String)} evt The Event name.
-//      * @private
-//      */
-//     function clearEvent(emitter: EventEmitter, evt: string) {
-//         if (--emitter._eventsCount === 0) {
-//             emitter._events = {};
-//         } else {
-//             delete emitter._events[evt];
-//         }
-//     }
+            for (let i = 0, length = listeners.length; i < length; i++) {
 
-//     export class EventEmitter implements IEventEmitter {
+                switch (arguments.length) {
+                    case 1: listeners[i].fn.call(listeners[i].context); break;
+                    case 2: listeners[i].fn.call(listeners[i].context, a1); break;
+                    case 3: listeners[i].fn.call(listeners[i].context, a1, a2); break;
+                    case 4: listeners[i].fn.call(listeners[i].context, a1, a2, a3); break;
+                    case 5: listeners[i].fn.call(listeners[i].context, a1, a2, a3, a4); break;
+                    case 6: listeners[i].fn.call(listeners[i].context, a1, a2, a3, a4, a5); break;
+                    default:
+                        console.error('>>>更多参数请使用数组实现!');
+                }
 
-//         public _events: IEvents;
+                if (listeners[i].once) {
+                    this.removeListener(event, listeners[i].fn, listeners[i].context);
+                }
+            }
 
-//         public _eventsCount: number;
+            return true;
+        };
 
-//         constructor() {
-//             this._events = {};
-//             this._eventsCount = 0;
-//         }
+        removeListener(event: string, fn?: Function, context?: any): void {
 
-//         /**
-//          * Return an array listing the events for which the emitter has registered
-//          * listeners.
-//          *
-//          * @returns {Array<string>}
-//          * @public
-//          */
-//         eventNames(): Array<string> {
-//             let names: Array<string> = [];
-//             const events = this._events;
+            const listeners = this._events[event];
 
-//             if (this._eventsCount === 0) return names;
+            if (!listeners) return;
 
-//             names = Object.keys(events);
+            if (!fn) {
+                this._clearEvent(event);
+                return;
+            }
 
-//             return names;
-//         };
+            for (let i = 0, len = listeners.length; i < len; i++) {
+                if (listeners[i].fn === fn && listeners[i].context === context) {
+                    listeners.splice(i, 1);
+                    return;
+                }
+            }
 
+        };
 
-//         /**
-//          * Return the listeners registered for a given event.
-//          *
-//          * @param {String} evt The event name.
-//          * @returns {Array<Function>} The registered listeners.
-//          * @public
-//          */
-//         listeners(evt: string): Array<Function> {
-//             const handlers = this._events[evt];
+        on(event: string, fn: Function, context?: any): void {
+            this._addListener(event, fn, context, false);
+        };
 
-//             if (!handlers) return [];
+        once(event: string, fn: Function, context?: any): void {
+            this._addListener(event, fn, context, true);
+        };
 
-//             const ee = [];
+        removeAllListeners(event?: string): void {
 
-//             for (let i = 0, l = handlers.length; i < l; i++) {
-//                 ee[i] = handlers[i].fn;
-//             }
+            if (event) {
+                if (this._events[event]) {
+                    this._clearEvent(event);
+                }
+            } else {
+                this._events = Object.create(null);
+                this._eventsCount = 0;
+            }
 
-//             return ee;
-//         };
+        };
 
-//         /**
-//          * Return the number of listeners listening to a given event.
-//          *
-//          * @param {(String|Symbol)} event The event name.
-//          * @returns {Number} The number of listeners.
-//          * @public
-//          */
-//         listenerCount(evt: string): number {
-//             const listeners = this._events[evt];
+        off(event: string, fn?: Function, context?: any): void {
+            this.removeListener(event, fn, context);
+        }
 
-//             if (!listeners) return 0;
-//             return listeners.length;
-//         };
+        addListener(event: string, fn: Function, context?: any): void {
+            this.on(event, fn, context);
+        }
 
-//         /**
-//          * Calls each of the listeners registered for a given event.
-//          *
-//          * @param {string} event The event name.
-//          * @returns {Boolean} `true` if the event had listeners, else `false`.
-//          * @public
-//          */
-//         emit(evt: string, ...args): boolean {
+        private _addListener(event: string, fn: Function, context: any, once: boolean): void {
 
-//             if (!this._events[evt]) return false;
+            if (typeof fn !== 'function') {
+                throw new TypeError('The listener must be a function');
+            }
 
-//             const listeners = this._events[evt];
+            const listener = { fn, context, once }; // 优化时加入对象池功能
 
-//             const length = listeners.length;
+            let list = this._events[event];
 
-//             for (let i = 0; i < length; i++) {
-//                 if (listeners[i].once) {
-//                     this.removeListener(evt, listeners[i].fn, listeners[i].context, true);
-//                 }
+            if (!list) {
+                list = this._events[event] = [];
+                this._eventsCount++;
+            }
 
-//                 listeners[i].fn.apply(listeners[i].context, args);
+            list.push(listener);
 
-//             }
+        };
 
-//             return true;
-//         };
+        private _clearEvent(event: string): void {
+            --this._eventsCount;
+            delete this._events[event];
+        }
 
-//         /**
-//           * Add a listener for a given event.
-//           *
-//           * @param {(String|Symbol)} event The event name.
-//           * @param {Function} fn The listener function.
-//           * @param {*} [context=this] The context to invoke the listener with.
-//           * @returns {EventEmitter} `this`.
-//           * @public
-//           */
-//         on(event: string, fn: Function, context: any): IEventEmitter {
-//             return addListener(this, event, fn, context, false);
-//         };
-
-//         /**
-//           * Add a one-time listener for a given event.
-//           *
-//           * @param {(String|Symbol)} event The event name.
-//           * @param {Function} fn The listener function.
-//           * @param {*} [context=this] The context to invoke the listener with.
-//           * @returns {EventEmitter} `this`.
-//           * @public
-//           */
-//         once(event: string, fn: Function, context: any): IEventEmitter {
-//             return addListener(this, event, fn, context, true);
-//         };
-
-//         /**
-//          * Remove the listeners of a given event.
-//          *
-//          * @param {(String|Symbol)} event The event name.
-//          * @param {Function} fn Only remove the listeners that match this function.
-//          * @param {*} context Only remove the listeners that have this context.
-//          * @param {Boolean} once Only remove one-time listeners.
-//          * @returns {EventEmitter} `this`.
-//          * @public
-//          */
-//         removeListener(evt: string, fn: Function, context: any, once: boolean): IEventEmitter {
-
-//             if (!this._events[evt]) return this;
-
-//             if (!fn) {
-//                 clearEvent(this, evt);
-//                 return this;
-//             }
-
-//             const listeners = this._events[evt];
-
-//             for (var i = 0, events = [], length = listeners.length; i < length; i++) {
-//                 if (
-//                     listeners[i].fn !== fn ||
-//                     (once && !listeners[i].once) ||
-//                     (context && listeners[i].context !== context)
-//                 ) {
-//                     events.push(listeners[i]);
-//                 }
-//             }
-
-//             if (events.length) {
-//                 this._events[evt] = events;
-//             } else {
-//                 clearEvent(this, evt);
-//             }
-
-//             return this;
-//         };
-
-//         /**
-//          * Remove all listeners, or those of the specified event.
-//          *
-//          * @param {(String)} [event] The event name.
-//          * @returns {EventEmitter} `this`.
-//          * @public
-//          */
-//         removeAllListeners(event?: string): IEventEmitter {
-
-//             if (event) {
-//                 if (this._events[event]) clearEvent(this, event);
-//             } else {
-//                 this._events = {};
-//                 this._eventsCount = 0;
-//             }
-
-//             return this;
-//         };
-
-//         /**
-//          * Alias methods names because people roll like that.
-//          * 
-//          * @param evt 
-//          * @param fn 
-//          * @param context 
-//          * @param once 
-//          */
-//         off(evt: string, fn: Function, context: any, once = false): IEventEmitter {
-//             return this.removeListener(evt, fn, context, once);
-//         }
-
-//         addListener(event: string, fn: Function, context: any): IEventEmitter {
-//             return this.on(event, fn, context);
-//         }
-//     }
-// }
+    }
+}

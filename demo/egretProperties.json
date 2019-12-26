@@ -42,10 +42,6 @@
 		{
 			"name": "wxmini",
 			"path": "../library/wxmini"
-		},
-		{
-			"name": "eventemitter3",
-			"path": "../library/eventemitter3"
 		}
 	]
 }

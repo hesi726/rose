@@ -9,6 +9,17 @@ namespace CommonUtil {
     }
 
     /**
+     * 拼接 get 请求字符串
+     * @param {*} argsObj - 待拼接的对象
+     * @returns {string} - 拼接成的请求字符串
+     */
+    export function splicingQueryString(argsObj, format = v => v) {
+        const params: Array<string> = [];
+        Object.keys(argsObj).forEach(key => params.push([key, format(argsObj[key])].join('=')));
+        return '?' + params.join('&');
+    }
+
+    /**
      * 解析 URL 中参数。
      * 要获取的 key 中不允许有 '=',value 中可以正常解析。如果没有 value 默认为 “0”。<br/>
      * @return {{ [index: string]: string }} 包含URL参数的键值对对象。

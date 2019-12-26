@@ -1,0 +1,7 @@
+{
+	"name": "rose",
+	"scripts": {
+		"build": "egret build"
+	},
+	"compilerVersion": "5.2.30"
+}
