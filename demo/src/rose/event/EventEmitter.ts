@@ -49,22 +49,32 @@ namespace rose {
 
             if (!listeners) return false;
 
+            const onceList = [];
+
             for (let i = 0, length = listeners.length; i < length; i++) {
 
+                const eventBin = listeners[i];
+
+                if (eventBin.once) {
+                    onceList.push(eventBin);
+                }
+
                 switch (arguments.length) {
-                    case 1: listeners[i].fn.call(listeners[i].context); break;
-                    case 2: listeners[i].fn.call(listeners[i].context, a1); break;
-                    case 3: listeners[i].fn.call(listeners[i].context, a1, a2); break;
-                    case 4: listeners[i].fn.call(listeners[i].context, a1, a2, a3); break;
-                    case 5: listeners[i].fn.call(listeners[i].context, a1, a2, a3, a4); break;
-                    case 6: listeners[i].fn.call(listeners[i].context, a1, a2, a3, a4, a5); break;
+                    case 1: eventBin.fn.call(eventBin.context); break;
+                    case 2: eventBin.fn.call(eventBin.context, a1); break;
+                    case 3: eventBin.fn.call(eventBin.context, a1, a2); break;
+                    case 4: eventBin.fn.call(eventBin.context, a1, a2, a3); break;
+                    case 5: eventBin.fn.call(eventBin.context, a1, a2, a3, a4); break;
+                    case 6: eventBin.fn.call(eventBin.context, a1, a2, a3, a4, a5); break;
                     default:
                         console.error('>>>更多参数请使用数组实现!');
                 }
 
-                if (listeners[i].once) {
-                    this.removeListener(event, listeners[i].fn, listeners[i].context);
-                }
+            }
+
+            while (onceList.length) {
+                let onceEventBin = onceList.pop();
+                this.removeListener(event, onceEventBin.fn, onceEventBin.context);
             }
 
             return true;

@@ -84,7 +84,7 @@ namespace rose {
         };
 
         unregister(selector: () => void, ctx: any): void {
-            this.emitter.off(Proxy.CHANGE_DATA, selector, ctx, false);
+            this.emitter.off(Proxy.CHANGE_DATA, selector, ctx);
         };
 
         registerByKey<K extends keyof T>(key: K, selector: () => void, ctx: any): void {
@@ -92,7 +92,7 @@ namespace rose {
         };
 
         unregisterByKey<K extends keyof T>(key: K, selector: () => void, ctx: any): void {
-            this.emitter.off(Proxy.CHANGE_DATA_KEY + key, selector, ctx, false);
+            this.emitter.off(Proxy.CHANGE_DATA_KEY + key, selector, ctx);
         };
 
         unregisterAll(): void {
