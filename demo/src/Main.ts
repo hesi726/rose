@@ -107,6 +107,15 @@ class Main extends eui.UILayer {
         button.verticalCenter = 0;
         this.addChild(button);
         button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
+
+        const UserData = getDataManager('UserData');
+
+        // UserData.registerByKey('age', (value, previousValue) => {
+        //     console.log("value>>>", value);
+        //     console.log("previousValue>>>", previousValue);
+        // })
+
+        UserData.registerByKey('age', this.uii, this);
     }
 
     /**
@@ -120,15 +129,33 @@ class Main extends eui.UILayer {
         return result;
     }
 
+    private uii(value, previousValue) {
+        console.log("value>>>", value);
+        console.log("previousValue>>>", previousValue);
+    }
+
+    private _count = 0;
     /**
      * 点击按钮
      * Click the button
      */
     private onButtonClick(e: egret.TouchEvent) {
-        rose.ModuleMgr.start(moduleId.home).then(() => {
-            rose.layerMgr.clearBag();
-        }).catch((err) => {
-            alert(err);
-        });
+        ++this._count;
+
+        const UserData = getDataManager('UserData');
+
+        UserData.setValue('age', Math.random());
+
+        console.log(UserData.get('age'));
+
+        if (this._count === 3) {
+            UserData.unregisterByKey('age', this.uii, this);
+        }
+
+        // rose.ModuleMgr.start(moduleId.home).then(() => {
+        //     rose.layerMgr.clearBag();
+        // }).catch((err) => {
+        //     alert(err);
+        // });
     }
 }

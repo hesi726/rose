@@ -1,12 +1,19 @@
 {
 	"compilerOptions": {
 		"target": "es5",
-		"noImplicitAny": false,
-		"sourceMap": false,
+		"outFile": "bin/rose.js",
+        "experimentalDecorators": true,
 		"declaration": true,
-		"outFile": "bin/rose.js"
+		"lib": [
+			"es5",
+			"es6",
+			"dom",
+			"es2015.promise"
+		],
+		"types": []
 	},
 	"include": [
-		"src"
+		"src",
+		"libs"
 	]
 }

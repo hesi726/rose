@@ -40,6 +40,10 @@
 			"name": "promise"
 		},
 		{
+			"name": "rose",
+			"path": "../library/rose"
+		},
+		{
 			"name": "wxmini",
 			"path": "../library/wxmini"
 		}

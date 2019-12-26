@@ -37,7 +37,7 @@ namespace rose {
      * 模块管理、实现
      * @author Created by pony on 2019/01/01.
      */
-    class ModuleManager implements IModuleManager {
+    export class ModuleManager implements IModuleManager {
 
         moduleConfig: { [id: string]: IModuleCfgItem } = {};
 

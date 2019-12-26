@@ -2,7 +2,7 @@ namespace utils {
 
     type callBackType = (timeStamp: number) => boolean;
 
-    class TimedTaskTicker {
+    export class TimedTaskTicker {
 
         public constructor() { }
 

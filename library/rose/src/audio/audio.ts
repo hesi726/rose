@@ -1,6 +1,6 @@
 namespace rose {
 
-    interface IAudioPathHandler {
+    export interface IAudioPathHandler {
         (audioKey: string): string
     }
 

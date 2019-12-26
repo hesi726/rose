@@ -3,7 +3,7 @@ namespace rose {
      * 层级管理
      * @author Created by peony on 2017/3/02.
      */
-    class LayerManager {
+    export class LayerManager {
 
         private _gameStage: egret.Stage;
 
