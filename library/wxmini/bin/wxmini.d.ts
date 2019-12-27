@@ -43,7 +43,7 @@ declare function clearInterval(intervalID: number): void;
  * @param rest param1, param2, ..., paramN 等附加参数，它们会作为参数传递给回调函数。
  * @returns number定时器的编号。这个值可以传递给 clearTimeout 来取消该定时。
  */
-declare function setTimeout(callback: () => void, delay: number, ...rest): number;
+declare function setTimeout(callback: () => void, delay: number, ...rest: any[]): number;
 
 /**
  * 设定一个定时器，按照指定的周期（以毫秒计）来执行注册的回调函数
@@ -52,7 +52,7 @@ declare function setTimeout(callback: () => void, delay: number, ...rest): numbe
  * @param rest param1, param2, ..., paramN 等附加参数，它们会作为参数传递给回调函数。
  * @returns number定时器的编号。这个值可以传递给 clearTimeout 来取消该定时。
  */
-declare function setInterval(callback: () => void, delay: number, ...rest): number;
+declare function setInterval(callback: () => void, delay: number, ...rest: any): number;
 
 /**
  * 微信小游戏命名空间
@@ -186,17 +186,14 @@ declare namespace wx {
      * 通过 Canvas.getContext('webgl') 接口可以获取 WebGLRenderingContext 对象，实现了 WebGL 1.0 定义的所有属性、方法、常量。
      * 2d 接口支持情况
      * iOS/Android 不支持的 2d 属性和接口
-
      * globalCompositeOperation 不支持以下值： source-in source-out destination-atop lighter copy。如果使用，不会报错，但是将得到与预期不符的结果。
      * isPointInPath
      * WebGL 接口支持情况
      * iOS/Android 不支持的 WebGL 接口
-
      * pixelStorei 当第一个参数是 gl.UNPACK_COLORSPACE_CONVERSION_WEBGL 时
      * compressedTexImage2D
      * compressedTexSubImage2D
      * 除此之外 Android 还不支持 WebGL 接口
-
      * getExtension
      * getSupportedExtensions
      */
@@ -521,9 +518,9 @@ declare namespace wx {
         /** 取消监听激励视频错误事件*/
         offError(callback: () => void): void;
         /** 监听用户点击 关闭广告 按钮的事件*/
-        onClose(callback: (res: { isEnded: boolean }) => void);
+        onClose(callback: (res: { isEnded: boolean }) => void): void;
         /** 取消监听用户点击 关闭广告 按钮的事件*/
-        offClose(callback: () => void);
+        offClose(callback: () => void): void;
     }
 
     /**
@@ -1534,7 +1531,6 @@ declare namespace wx {
      */
     function getUserInfo(object: {
         withCredentials?: boolean, lang?: string, success?: (res: {
-            ƒ
             userInfo: UserInfo,
             rawData: string,
             signature: string,
@@ -1566,13 +1562,13 @@ declare namespace wx {
             lineHeight: number
         },
         /** 显示用户信息按钮*/
-        show();
+        show(): void;
 
         /** 隐藏用户信息按钮。*/
-        hide();
+        hide(): void;
 
         /** 销毁用户信息按钮*/
-        destroy();
+        destroy(): void;
 
         /** 监听用户信息按钮的点击事件*/
         onTap(callback: (res: {
@@ -1581,10 +1577,10 @@ declare namespace wx {
             signature: string,
             encryptedData: string,
             iv: string
-        }) => void);
+        }) => void): void;
 
         /** 取消监听用户信息按钮的点击事件*/
-        offTap(callback: () => void);
+        offTap(callback: () => void): void;
     }
 
     /** 创建用户信息按钮*/
