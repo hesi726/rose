@@ -1,5 +1,6 @@
 ## 微信小游戏dts、微信小游戏.d.ts、微信小游戏、egret、WeChat MiniGame dts file
-## 2019-12-27 修正部分方法未定义 void、以及 setTimeout 中的 rest参数定义错误
+## 2019-12-27 修正 wxmini.d.ts 部分方法未定义 void、以及 setTimeout 中的 rest参数定义错误
+fork 自项目: https://github.com/pony13500815917/rose
  
 ### 微信小游戏 dts 文件
  * [文件路径](./library/wxmini/bin/wxmini.d.ts)
