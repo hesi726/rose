@@ -13,7 +13,7 @@ namespace CommonUtil {
      * @param {*} argsObj - 待拼接的对象
      * @returns {string} - 拼接成的请求字符串
      */
-    export function splicingQueryString(argsObj, format = v => v) {
+    export function splicingQueryString(argsObj: { [index: string]: any }, format = v => v): string {
         const params: Array<string> = [];
         Object.keys(argsObj).forEach(key => params.push([key, format(argsObj[key])].join('=')));
         return '?' + params.join('&');
